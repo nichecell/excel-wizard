@@ -1,0 +1,276 @@
+/* 표 정리 도구 스타일 */
+.table-organizer-container {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+/* 단계별 섹션 */
+.step-section {
+    display: none;
+    background: white;
+    border-radius: 15px;
+    padding: 2rem;
+    box-shadow: var(--shadow);
+    margin-bottom: 2rem;
+    animation: fadeIn 0.3s ease;
+}
+
+.step-section.active {
+    display: block;
+}
+
+.step-header {
+    text-align: center;
+    margin-bottom: 2rem;
+    padding-bottom: 1rem;
+    border-bottom: 2px solid var(--border-color);
+}
+
+.step-header h3 {
+    color: var(--primary-color);
+    font-size: 1.5rem;
+    margin-bottom: 0.5rem;
+}
+
+.step-hint {
+    color: var(--text-secondary);
+    font-size: 1rem;
+}
+
+/* 1단계: 데이터 입력 */
+.input-area {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.raw-data-input {
+    width: 100%;
+    min-height: 400px;
+    padding: 1rem;
+    border: 2px solid var(--border-color);
+    border-radius: 10px;
+    font-family: 'Courier New', monospace;
+    font-size: 1rem;
+    line-height: 1.5;
+    resize: vertical;
+    transition: border-color 0.3s ease;
+}
+
+.raw-data-input:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+}
+
+.raw-data-input::placeholder {
+    color: #999;
+    opacity: 0.7;
+}
+
+.input-controls {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+}
+
+/* 2단계: 열 설정 */
+.column-setup {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+.column-count-control {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    justify-content: center;
+    padding: 1rem;
+    background: var(--bg-color);
+    border-radius: 10px;
+}
+
+.column-count-control label {
+    font-weight: 600;
+    color: var(--text-color);
+}
+
+.column-count-control input {
+    width: 80px;
+    padding: 0.5rem;
+    border: 1px solid var(--border-color);
+    border-radius: 5px;
+    text-align: center;
+}
+
+.btn-small {
+    padding: 0.5rem 1rem;
+    font-size: 0.9rem;
+}
+
+.column-headers {
+    display: grid;
+    gap: 1rem;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+}
+
+.column-header-input {
+    padding: 1rem;
+    border: 2px solid var(--border-color);
+    border-radius: 8px;
+    font-size: 1rem;
+    text-align: center;
+    transition: border-color 0.3s ease;
+}
+
+.column-header-input:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+}
+
+.step-controls {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+}
+
+/* 3단계: 결과 */
+.result-container {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+.result-controls {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.table-result {
+    overflow: auto;
+    max-height: 500px;
+    border: 1px solid var(--border-color);
+    border-radius: 10px;
+    background: white;
+}
+
+.result-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.95rem;
+}
+
+.result-table th {
+    background: var(--primary-color);
+    color: white;
+    padding: 1rem;
+    text-align: left;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    font-weight: 600;
+}
+
+.result-table td {
+    padding: 0.75rem 1rem;
+    border-bottom: 1px solid var(--border-color);
+    border-right: 1px solid var(--border-color);
+}
+
+.result-table td:last-child {
+    border-right: none;
+}
+
+.result-table tr:hover {
+    background: var(--bg-color);
+}
+
+.result-table tr:nth-child(even) {
+    background: rgba(102, 126, 234, 0.03);
+}
+
+/* 데이터 미리보기 */
+.data-preview {
+    background: var(--bg-color);
+    border-radius: 8px;
+    padding: 1rem;
+    margin: 1rem 0;
+    font-family: 'Courier New', monospace;
+    font-size: 0.9rem;
+    max-height: 200px;
+    overflow-y: auto;
+}
+
+.data-preview-title {
+    font-weight: 600;
+    color: var(--text-color);
+    margin-bottom: 0.5rem;
+}
+
+.data-count {
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+    text-align: center;
+    margin-top: 1rem;
+}
+
+/* 성공 메시지 */
+.success-message {
+    background: linear-gradient(135deg, var(--success-color), #17a2b8);
+    color: white;
+    padding: 1rem;
+    border-radius: 8px;
+    text-align: center;
+    margin-bottom: 1rem;
+    animation: slideIn 0.3s ease;
+}
+
+/* 경고 메시지 */
+.warning-message {
+    background: #fff3cd;
+    color: #856404;
+    border: 1px solid #ffeaa7;
+    padding: 1rem;
+    border-radius: 8px;
+    margin-bottom: 1rem;
+}
+
+/* 반응형 디자인 */
+@media (max-width: 768px) {
+    .table-organizer-container {
+        padding: 0 1rem;
+    }
+    
+    .step-section {
+        padding: 1.5rem;
+    }
+    
+    .column-headers {
+        grid-template-columns: 1fr;
+    }
+    
+    .result-controls {
+        flex-direction: column;
+    }
+    
+    .result-controls .btn {
+        width: 100%;
+    }
+    
+    .column-count-control {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+    
+    .step-controls {
+        flex-direction: column;
+    }
+    
+    .step-controls .btn {
+        width: 100%;
+    }
+}

@@ -1,0 +1,715 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Excel Wizard - Online Excel File Merger & Tools</title>
+    
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="Free online Excel file merger, sheet creator, and data organizer. Merge multiple Excel files, create new sheets, and organize data into tables easily." />
+    <meta name="keywords" content="excel merge, excel tools, online excel, file merger, sheet creator, data organizer, excel file combiner" />
+    <meta name="robots" content="index, follow" />
+    <meta name="author" content="Excel Wizard" />
+    <link rel="canonical" href="https://yoursite.com/en/" />
+    
+    <!-- Language and Internationalization -->
+    <link rel="alternate" hreflang="ko" href="https://yoursite.com/ko/" />
+    <link rel="alternate" hreflang="en" href="https://yoursite.com/en/" />
+    <link rel="alternate" hreflang="x-default" href="https://yoursite.com/" />
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://yoursite.com/en/" />
+    <meta property="og:title" content="Excel Wizard - Online Excel Tools" />
+    <meta property="og:description" content="Free online Excel file merger, sheet creator, and data organizer" />
+    <meta property="og:image" content="https://yoursite.com/shared/images/og-image-en.png" />
+    <meta property="og:site_name" content="Excel Wizard" />
+    <meta property="og:locale" content="en_US" />
+    
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image" />
+    <meta property="twitter:url" content="https://yoursite.com/en/" />
+    <meta property="twitter:title" content="Excel Wizard - Online Excel Tools" />
+    <meta property="twitter:description" content="Free online Excel file merger, sheet creator, and data organizer" />
+    <meta property="twitter:image" content="https://yoursite.com/shared/images/twitter-image-en.png" />
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="../shared/favicon.ico" />
+    <link rel="apple-touch-icon" href="../shared/apple-touch-icon.png" />
+    
+    <!-- Structured Data -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "Excel Wizard",
+      "description": "Free online Excel file merger, sheet creator, and data organizer",
+      "url": "https://yoursite.com/en/",
+      "applicationCategory": "BusinessApplication",
+      "operatingSystem": "Any",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      },
+      "inLanguage": "en-US"
+    }
+    </script>
+    <link rel="stylesheet" href="css/main.css" />
+    <link rel="stylesheet" href="css/merge-tool.css" />
+    <link rel="stylesheet" href="css/sheet-creator.css" />
+    <link rel="stylesheet" href="css/table-organizer.css" />
+    <link rel="stylesheet" href="css/sheet-selector.css" />
+    <link rel="stylesheet" href="css/diagram.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+  </head>
+  <body>
+    <div class="app-container">
+      <!-- 헤더 -->
+      <header class="app-header">
+        <div class="header-content">
+          <div class="header-main">
+            <h1 class="app-title">🧙‍♂️ Excel Wizard</h1>
+            <p class="app-subtitle">Fast and Easy Excel Operations</p>
+          </div>
+          <div class="language-switcher">
+            <button class="lang-btn" data-lang="ko" onclick="switchLanguage('ko')">한국어</button>
+            <button class="lang-btn active" data-lang="en">English</button>
+          </div>
+        </div>
+      </header>
+
+      <!-- 네비게이션 -->
+      <nav class="tool-navigation">
+        <button class="nav-btn active" data-tool="merge">
+          <span class="nav-icon">🔀</span>
+          <span class="nav-text">Data Merge</span>
+        </button>
+        <button class="nav-btn" data-tool="split">
+          <span class="nav-icon">📝</span>
+          <span class="nav-text">Sheet Creator</span>
+        </button>
+        <button class="nav-btn" data-tool="convert">
+          <span class="nav-icon">📋</span>
+          <span class="nav-text">Table Organizer</span>
+        </button>
+        <button class="nav-btn" data-tool="analyze">
+          <span class="nav-icon">🔗</span>
+          <span class="nav-text">Sheet Selector</span>
+        </button>
+      </nav>
+
+      <!-- Main Content Area -->
+      <main class="main-content">
+        <!-- Data Merge Tool -->
+        <div id="merge-tool" class="tool-container active">
+          <h2 class="tool-title">Data Merge</h2>
+
+          <!-- 도식 설명 -->
+          <div class="tool-diagram">
+            <div class="diagram-title">💡 What is Data Merge?</div>
+            <div class="diagram-content">
+              <div class="diagram-step">
+                <div class="file-example">
+                  <div class="file-icon">📄</div>
+                  <div class="file-name">File1.xlsx</div>
+                  <div class="file-table">
+                    <table>
+                      <tr>
+                        <th>Name</th>
+                        <th>Age</th>
+                      </tr>
+                      <tr>
+                        <td>John</td>
+                        <td>25</td>
+                      </tr>
+                      <tr>
+                        <td>Jane</td>
+                        <td>28</td>
+                      </tr>
+                    </table>
+                  </div>
+                </div>
+                <div class="plus-icon">+</div>
+                <div class="file-example">
+                  <div class="file-icon">📄</div>
+                  <div class="file-name">File2.xlsx</div>
+                  <div class="file-table">
+                    <table>
+                      <tr>
+                        <th>Name</th>
+                        <th>Age</th>
+                      </tr>
+                      <tr>
+                        <td>Mike</td>
+                        <td>30</td>
+                      </tr>
+                      <tr>
+                        <td>Sarah</td>
+                        <td>22</td>
+                      </tr>
+                    </table>
+                  </div>
+                </div>
+                <div class="arrow-icon">→</div>
+                <div class="file-example result">
+                  <div class="file-icon">📄</div>
+                  <div class="file-name">MergedFile.xlsx</div>
+                  <div class="file-table">
+                    <table>
+                      <tr>
+                        <th>Name</th>
+                        <th>Age</th>
+                      </tr>
+                      <tr>
+                        <td>John</td>
+                        <td>25</td>
+                      </tr>
+                      <tr>
+                        <td>Jane</td>
+                        <td>28</td>
+                      </tr>
+                      <tr>
+                        <td>Mike</td>
+                        <td>30</td>
+                      </tr>
+                      <tr>
+                        <td>Sarah</td>
+                        <td>22</td>
+                      </tr>
+                    </table>
+                  </div>
+                </div>
+              </div>
+              <p class="diagram-description">
+                Combine multiple Excel files with the same structure into one sheet
+              </p>
+            </div>
+          </div>
+
+          <div class="upload-area" id="uploadArea">
+            <div class="upload-icon">📁</div>
+            <p class="upload-text">
+              Drag and drop Excel files here<br />
+              or click the button below to select files
+            </p>
+            <label for="fileInput" class="upload-label">Select Files</label>
+            <input type="file" id="fileInput" multiple accept=".xls,.xlsx" />
+            <p class="upload-hint">.xls, .xlsx files supported</p>
+          </div>
+
+          <div class="file-list" id="fileList"></div>
+
+          <div class="progress" id="progress">
+            <div class="progress-text" id="progressText">Processing...</div>
+            <div class="progress-bar">
+              <div class="progress-fill" id="progressFill"></div>
+            </div>
+          </div>
+
+          <div class="stats" id="stats">
+            <div class="stat-item">
+              <span class="stat-label">Total Files:</span>
+              <span class="stat-value" id="totalFiles">0</span>
+            </div>
+            <div class="stat-item">
+              <span class="stat-label">Total Sheets:</span>
+              <span class="stat-value" id="totalSheets">0</span>
+            </div>
+            <div class="stat-item">
+              <span class="stat-label">Total Rows:</span>
+              <span class="stat-value" id="totalRows">0</span>
+            </div>
+          </div>
+
+          <div class="action-buttons">
+            <button class="btn btn-secondary" id="clearBtn">Clear</button>
+            <button class="btn btn-primary" id="mergeBtn" disabled>
+              Merge Sheets
+            </button>
+          </div>
+
+          <div class="preview-container" id="previewContainer">
+            <div class="preview-header">
+              <h3 class="preview-title">📋 Preview</h3>
+              <span class="preview-info" id="previewInfo"></span>
+            </div>
+            <div class="table-wrapper">
+              <table id="previewTable">
+                <thead id="previewHead"></thead>
+                <tbody id="previewBody"></tbody>
+              </table>
+            </div>
+          </div>
+
+          <div class="download-section" id="downloadSection">
+            <button class="btn btn-success" id="downloadBtn">
+              💾 Download Merged File
+            </button>
+          </div>
+        </div>
+
+        <!-- Sheet Creator Tool -->
+        <div id="split-tool" class="tool-container">
+          <h2 class="tool-title">Sheet Creator</h2>
+
+          <!-- 도식 설명 -->
+          <div class="tool-diagram">
+            <div class="diagram-title">💡 What is Sheet Creator?</div>
+            <div class="diagram-content">
+              <div class="diagram-step">
+                <div class="text-example">
+                  <div class="text-icon">📝</div>
+                  <div class="text-name">Text Input</div>
+                  <div class="text-content">
+                    <div class="text-line">January</div>
+                    <div class="text-line">February</div>
+                    <div class="text-line">March</div>
+                    <div class="text-line">April</div>
+                    <div class="text-line">May</div>
+                    <div class="text-line">June</div>
+                  </div>
+                </div>
+                <div class="arrow-icon">→</div>
+                <div class="file-example result">
+                  <div class="file-icon">📄</div>
+                  <div class="file-name">GeneratedFile.xlsx</div>
+                  <div class="sheet-list">
+                    <div class="sheet-item result">📋 January</div>
+                    <div class="sheet-item result">📋 February</div>
+                    <div class="sheet-item result">📋 March</div>
+                    <div class="sheet-item result">📋 April</div>
+                    <div class="sheet-item result">📋 May</div>
+                    <div class="sheet-item result">📋 June</div>
+                  </div>
+                </div>
+              </div>
+              <p class="diagram-description">
+                Create sheets with each input text as individual sheet names
+              </p>
+            </div>
+          </div>
+
+          <div class="sheet-creator-container">
+            <div class="input-section">
+              <h3>Enter Sheet Names</h3>
+              <p class="input-hint">Enter one sheet name per line</p>
+              <textarea
+                id="sheetNamesInput"
+                class="sheet-names-input"
+                placeholder="January&#10;February&#10;March&#10;April&#10;May&#10;June"
+                rows="10"
+              ></textarea>
+
+              <div class="input-controls">
+                <button class="btn btn-secondary" id="clearSheetNamesBtn">
+                  Clear
+                </button>
+                <button class="btn btn-primary" id="createSheetsBtn">
+                  Create Sheets
+                </button>
+              </div>
+            </div>
+
+            <div class="preview-section" id="sheetPreviewSection">
+              <h3>미리보기</h3>
+              <div class="sheet-list" id="sheetList"></div>
+              <p class="sheet-count" id="sheetCount"></p>
+            </div>
+
+            <div class="download-section" id="sheetDownloadSection">
+              <button class="btn btn-success" id="downloadSheetsBtn">
+                💾 Download Excel File
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Table Organizer Tool -->
+        <div id="convert-tool" class="tool-container">
+          <h2 class="tool-title">Data Table Organizer</h2>
+
+          <!-- 도식 설명 -->
+          <div class="tool-diagram">
+            <div class="diagram-title">💡 What is Data Table Organizer?</div>
+            <div class="diagram-content">
+              <div class="diagram-step">
+                <div class="text-example">
+                  <div class="text-icon">📝</div>
+                  <div class="text-name">Vertical Data List</div>
+                  <div class="text-content vertical">
+                    <div class="text-line">1</div>
+                    <div class="text-line">가</div>
+                    <div class="text-line">가가</div>
+                    <div class="text-line">2</div>
+                    <div class="text-line">나</div>
+                    <div class="text-line">나나</div>
+                    <div class="text-line">3</div>
+                    <div class="text-line">다</div>
+                    <div class="text-line">다다</div>
+                  </div>
+                </div>
+                <div class="plus-icon">+</div>
+                <div class="header-example">
+                  <div class="text-icon">🏷️</div>
+                  <div class="text-name">Column Setup</div>
+                  <div class="header-content">
+                    <div class="header-item">Number</div>
+                    <div class="header-item">Name</div>
+                    <div class="header-item">Nickname</div>
+                  </div>
+                </div>
+                <div class="arrow-icon">→</div>
+                <div class="file-example result">
+                  <div class="file-icon">📊</div>
+                  <div class="file-name">Organized Table</div>
+                  <div class="file-table">
+                    <table>
+                      <tr>
+                        <th>Number</th>
+                        <th>Name</th>
+                        <th>Nickname</th>
+                      </tr>
+                      <tr>
+                        <td>1</td>
+                        <td>가</td>
+                        <td>가가</td>
+                      </tr>
+                      <tr>
+                        <td>2</td>
+                        <td>나</td>
+                        <td>나나</td>
+                      </tr>
+                      <tr>
+                        <td>3</td>
+                        <td>다</td>
+                        <td>다다</td>
+                      </tr>
+                    </table>
+                  </div>
+                </div>
+              </div>
+              <p class="diagram-description">
+                Organize vertically listed data into table format with specified columns
+              </p>
+            </div>
+          </div>
+
+          <div class="table-organizer-container">
+            <!-- 1단계: 데이터 입력 -->
+            <div class="step-section active" id="dataInputStep">
+              <div class="step-header">
+                <h3>1단계: 데이터 입력</h3>
+                <p class="step-hint">Enter your vertically listed data</p>
+              </div>
+
+              <div class="input-area">
+                <textarea
+                  id="rawDataInput"
+                  class="raw-data-input"
+                  placeholder="1&#10;가&#10;가가&#10;2&#10;나&#10;나나&#10;3&#10;다&#10;다다&#10;4&#10;라&#10;라라"
+                  rows="15"
+                ></textarea>
+
+                <div class="input-controls">
+                  <button class="btn btn-secondary" id="clearDataBtn">
+                    Clear
+                  </button>
+                  <button class="btn btn-primary" id="nextStepBtn" disabled>
+                    Next Step
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <!-- 2단계: 열 설정 -->
+            <div class="step-section" id="columnSetupStep">
+              <div class="step-header">
+                <h3>2단계: Column Setup</h3>
+                <p class="step-hint">Enter the name for each column</p>
+              </div>
+
+              <div class="column-setup">
+                <div class="column-count-control">
+                  <label>Number of columns: </label>
+                  <input
+                    type="number"
+                    id="columnCountInput"
+                    min="1"
+                    max="10"
+                    value="3"
+                  />
+                  <button
+                    class="btn btn-secondary btn-small"
+                    id="updateColumnsBtn"
+                  >
+                    Apply
+                  </button>
+                </div>
+
+                <div class="column-headers" id="columnHeaders">
+                  <!-- 동적으로 생성됨 -->
+                </div>
+
+                <div class="step-controls">
+                  <button class="btn btn-secondary" id="prevStepBtn">
+                    Previous
+                  </button>
+                  <button class="btn btn-primary" id="generateTableBtn">
+                    Generate Table
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Step 3: Result 표시 -->
+            <div class="step-section" id="resultStep">
+              <div class="step-header">
+                <h3>Step 3: Result</h3>
+                <p class="step-hint">Check the organized table and copy it</p>
+              </div>
+
+              <div class="result-container">
+                <div class="result-controls">
+                  <button class="btn btn-success" id="copyTableBtn">
+                    📋 Copy Table
+                  </button>
+                  <button class="btn btn-success" id="downloadTableBtn">
+                    💾 Download Excel
+                  </button>
+                  <button class="btn btn-secondary" id="restartBtn">
+                    Start Over
+                  </button>
+                </div>
+
+                <div class="table-result" id="tableResult">
+                  <!-- 생성된 표가 여기에 표시됨 -->
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Sheet Selector Tool -->
+        <div id="analyze-tool" class="tool-container">
+          <h2 class="tool-title">Sheet Merger</h2>
+
+          <!-- 도식 설명 -->
+          <div class="tool-diagram">
+            <div class="diagram-title">💡 What is Sheet Merger?</div>
+            <div class="diagram-content">
+              <div class="diagram-step">
+                <div class="file-example">
+                  <div class="file-icon">📄</div>
+                  <div class="file-name">File1.xlsx</div>
+                  <div class="sheet-list">
+                    <div class="sheet-item selected">📋 시트1 ✓</div>
+                    <div class="sheet-item">📋 시트2 ✗</div>
+                    <div class="sheet-item selected">📋 시트3 ✓</div>
+                  </div>
+                </div>
+                <div class="plus-icon">+</div>
+                <div class="file-example">
+                  <div class="file-icon">📄</div>
+                  <div class="file-name">File2.xlsx</div>
+                  <div class="sheet-list">
+                    <div class="sheet-item selected">📋 시트A ✓</div>
+                    <div class="sheet-item">📋 시트B ✗</div>
+                    <div class="sheet-item selected">📋 시트C ✓</div>
+                  </div>
+                </div>
+                <div class="arrow-icon">→</div>
+                <div class="file-example result">
+                  <div class="file-icon">📄</div>
+                  <div class="file-name">MergedFile.xlsx</div>
+                  <div class="sheet-list">
+                    <div class="sheet-item result">📋 시트1</div>
+                    <div class="sheet-item result">📋 시트3</div>
+                    <div class="sheet-item result">📋 시트A</div>
+                    <div class="sheet-item result">📋 시트C</div>
+                  </div>
+                </div>
+              </div>
+              <p class="diagram-description">
+                Select desired sheets from multiple files and merge them into one file
+              </p>
+            </div>
+          </div>
+
+          <div class="sheet-selector-container">
+            <!-- 1단계: 파일 업로드 -->
+            <div class="step-section active" id="fileUploadStep">
+              <div class="step-header">
+                <h3>Step 1: Upload Excel Files</h3>
+                <p class="step-hint">Upload Excel files to be merged</p>
+              </div>
+
+              <div class="upload-area" id="sheetSelectorUploadArea">
+                <div class="upload-icon">📁</div>
+                <p class="upload-text">
+                  엑셀 파일들을 드래그하여 놓거나<br />
+                  아래 버튼을 클릭하여 선택하세요
+                </p>
+                <label for="sheetSelectorFileInput" class="upload-label"
+                  >Select Files</label
+                >
+                <input
+                  type="file"
+                  id="sheetSelectorFileInput"
+                  multiple
+                  accept=".xls,.xlsx"
+                />
+                <p class="upload-hint">.xls, .xlsx files supported</p>
+              </div>
+
+              <div class="uploaded-files" id="uploadedFilesList"></div>
+
+              <div class="step-controls">
+                <button class="btn btn-secondary" id="clearFilesBtn">
+                  Clear
+                </button>
+                <button class="btn btn-primary" id="analyzeFilesBtn" disabled>
+                  Analyze Sheets
+                </button>
+              </div>
+            </div>
+
+            <!-- Step 2: Sheet Selection -->
+            <div class="step-section" id="sheetSelectionStep">
+              <div class="step-header">
+                <h3>Step 2: Sheet Selection</h3>
+                <p class="step-hint">Select sheets to be merged</p>
+              </div>
+
+              <div class="selection-controls">
+                <button
+                  class="btn btn-secondary btn-small"
+                  id="selectAllSheetsBtn"
+                >
+                  Select All
+                </button>
+                <button
+                  class="btn btn-secondary btn-small"
+                  id="deselectAllSheetsBtn"
+                >
+                  Deselect All
+                </button>
+              </div>
+
+              <div class="sheets-list" id="sheetsList">
+                <!-- 동적으로 생성됨 -->
+              </div>
+
+              <div class="step-controls">
+                <button class="btn btn-secondary" id="backToUploadBtn">
+                  Previous
+                </button>
+                <button
+                  class="btn btn-primary"
+                  id="previewSelectedBtn"
+                  disabled
+                >
+                  미리보기
+                </button>
+              </div>
+            </div>
+
+            <!-- 3단계: 미리보기 -->
+            <div class="step-section" id="previewStep">
+              <div class="step-header">
+                <h3>Step 3: Selected Sheets Preview</h3>
+                <p class="step-hint">Check the sheets to be merged</p>
+              </div>
+
+              <div class="preview-summary" id="previewSummary">
+                <!-- 선택된 시트 요약 -->
+              </div>
+
+              <div class="preview-tabs" id="previewTabs">
+                <!-- 미리보기 탭들 -->
+              </div>
+
+              <div class="preview-content" id="previewContent">
+                <!-- 미리보기 내용 -->
+              </div>
+
+              <div class="step-controls">
+                <button class="btn btn-secondary" id="backToSelectionBtn">
+                  Previous
+                </button>
+                <button class="btn btn-success" id="mergeSelectedSheetsBtn">
+                  시트 병합
+                </button>
+              </div>
+            </div>
+
+            <!-- 4단계: 결과 -->
+            <div class="step-section" id="resultStep">
+              <div class="step-header">
+                <h3>Step 4: Merge Complete</h3>
+                <p class="step-hint">Download the merged Excel file</p>
+              </div>
+
+              <div class="merge-result" id="mergeResult">
+                <!-- 병합 결과 정보 -->
+              </div>
+
+              <div class="result-controls">
+                <button class="btn btn-success" id="downloadMergedBtn">
+                  💾 Download Merged File
+                </button>
+                <button class="btn btn-secondary" id="startOverBtn">
+                  Start Over
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </main>
+
+      <!-- Footer -->
+      <footer class="app-footer">
+        <p>&copy; 2024 Excel Wizard. All rights reserved.</p>
+      </footer>
+    </div>
+
+    <!-- JavaScript 모듈들 -->
+    <script src="js/app.js"></script>
+    <script src="js/tools/merge-tool.js"></script>
+    <script src="js/tools/sheet-creator.js"></script>
+    <script src="js/tools/table-organizer.js"></script>
+    <script src="js/tools/sheet-selector.js"></script>
+    
+    <!-- Language Switcher Script -->
+    <script>
+      function switchLanguage(lang) {
+        // 언어 선택을 쿠키에 저장
+        document.cookie = `preferred-language=${lang}; path=/; max-age=31536000`; // 1년
+        
+        // 해당 언어 페이지로 이동
+        if (lang === 'en') {
+          window.location.href = '../en/';
+        } else {
+          window.location.href = '../ko/';
+        }
+      }
+      
+      // 페이지 로드시 언어 설정 확인
+      document.addEventListener('DOMContentLoaded', function() {
+        const savedLang = getCookie('preferred-language');
+        if (savedLang) {
+          // 언어 버튼 상태 업데이트
+          document.querySelectorAll('.lang-btn').forEach(btn => {
+            btn.classList.toggle('active', btn.dataset.lang === savedLang);
+          });
+        }
+      });
+      
+      function getCookie(name) {
+        const value = `; ${document.cookie}`;
+        const parts = value.split(`; ${name}=`);
+        if (parts.length === 2) return parts.pop().split(';').shift();
+      }
+    </script>
+  </body>
+</html>

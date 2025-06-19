@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Excel Wizard - Redirecting...</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+        .loader {
+            text-align: center;
+        }
+        .spinner {
+            width: 40px;
+            height: 40px;
+            border: 4px solid rgba(255,255,255,0.3);
+            border-top: 4px solid white;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        .language-selector {
+            margin-top: 30px;
+        }
+        .lang-btn {
+            background: rgba(255,255,255,0.2);
+            border: 2px solid rgba(255,255,255,0.3);
+            color: white;
+            padding: 10px 20px;
+            margin: 0 10px;
+            border-radius: 25px;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            transition: all 0.3s ease;
+        }
+        .lang-btn:hover {
+            background: rgba(255,255,255,0.3);
+            border-color: rgba(255,255,255,0.5);
+        }
+    </style>
+</head>
+<body>
+    <div class="loader">
+        <div class="spinner"></div>
+        <h1>🧙‍♂️ Excel Wizard</h1>
+        <p>Detecting your language...</p>
+        <div class="language-selector">
+            <a href="/ko/" class="lang-btn">한국어</a>
+            <a href="/en/" class="lang-btn">English</a>
+        </div>
+    </div>
+
+    <script>
+        // 언어 감지 및 리다이렉션
+        function detectAndRedirect() {
+            // 브라우저 언어 감지
+            const userLang = navigator.language || navigator.userLanguage;
+            const primaryLang = userLang.split('-')[0];
+            
+            // 쿠키에서 이전 언어 설정 확인
+            const savedLang = getCookie('preferred-language');
+            
+            let redirectPath;
+            if (savedLang) {
+                redirectPath = savedLang === 'ko' ? '/ko/' : '/en/';
+            } else if (primaryLang === 'ko') {
+                redirectPath = '/ko/';
+            } else {
+                redirectPath = '/en/';
+            }
+            
+            // 1초 후 리다이렉션 (로딩 애니메이션 표시)
+            setTimeout(() => {
+                window.location.href = redirectPath;
+            }, 1000);
+        }
+        
+        function getCookie(name) {
+            const value = `; ${document.cookie}`;
+            const parts = value.split(`; ${name}=`);
+            if (parts.length === 2) return parts.pop().split(';').shift();
+        }
+        
+        // 페이지 로드시 실행
+        detectAndRedirect();
+    </script>
+</body>
+</html>

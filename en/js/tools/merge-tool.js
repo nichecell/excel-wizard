@@ -1,0 +1,370 @@
+// 엑셀 병합 도구
+class ExcelMergeTool {
+  constructor() {
+    this.uploadedFiles = [];
+    this.mergedWorkbook = null;
+    this.mergedData = [];
+    this.setupEventListeners();
+  }
+
+  init() {
+    // 도구가 활성화될 때 호출
+    console.log("Excel Merge Tool initialized");
+  }
+
+  setupEventListeners() {
+    // DOM 요소 가져오기
+    const uploadArea = document.getElementById("uploadArea");
+    const fileInput = document.getElementById("fileInput");
+    const clearBtn = document.getElementById("clearBtn");
+    const mergeBtn = document.getElementById("mergeBtn");
+    const downloadBtn = document.getElementById("downloadBtn");
+
+    // 이벤트 리스너 등록
+    if (uploadArea) {
+      uploadArea.addEventListener("dragover", this.handleDragOver.bind(this));
+      uploadArea.addEventListener("dragleave", this.handleDragLeave.bind(this));
+      uploadArea.addEventListener("drop", this.handleDrop.bind(this));
+      uploadArea.addEventListener("click", (e) => {
+        // Only trigger file input click when not clicking on label
+        if (!e.target.closest('label')) {
+          fileInput.click();
+        }
+      });
+    }
+
+    if (fileInput) {
+      fileInput.addEventListener("change", this.handleFileSelect.bind(this));
+    }
+
+    if (clearBtn) {
+      clearBtn.addEventListener("click", this.clearFiles.bind(this));
+    }
+
+    if (mergeBtn) {
+      mergeBtn.addEventListener("click", this.mergeFiles.bind(this));
+    }
+
+    if (downloadBtn) {
+      downloadBtn.addEventListener("click", this.downloadMergedFile.bind(this));
+    }
+  }
+
+  // 드래그 앤 드롭 핸들러
+  handleDragOver(e) {
+    e.preventDefault();
+    e.currentTarget.classList.add("dragover");
+  }
+
+  handleDragLeave(e) {
+    e.currentTarget.classList.remove("dragover");
+  }
+
+  handleDrop(e) {
+    e.preventDefault();
+    e.currentTarget.classList.remove("dragover");
+
+    if (e.dataTransfer.files.length > 0) {
+      this.handleFiles(e.dataTransfer.files);
+    }
+  }
+
+  handleFileSelect(e) {
+    if (e.target.files.length > 0) {
+      this.handleFiles(e.target.files);
+    }
+  }
+
+  // File processing
+  handleFiles(files) {
+    const excelFiles = Array.from(files).filter(
+      (file) => file.name.endsWith(".xls") || file.name.endsWith(".xlsx")
+    );
+
+    excelFiles.forEach((file) => {
+      if (!this.uploadedFiles.find((f) => f.name === file.name)) {
+        this.uploadedFiles.push(file);
+      }
+    });
+
+    this.updateFileList();
+    this.updateMergeButton();
+  }
+
+  // Update file list
+  async updateFileList() {
+    const fileList = document.getElementById("fileList");
+    if (!fileList) return;
+
+    fileList.innerHTML = "";
+
+    for (let i = 0; i < this.uploadedFiles.length; i++) {
+      const file = this.uploadedFiles[i];
+      const fileItem = this.createFileItem(file, i);
+      fileList.appendChild(fileItem);
+
+      // Check sheet count
+      this.checkSheetCount(file, i);
+    }
+  }
+
+  createFileItem(file, index) {
+    const fileItem = document.createElement("div");
+    fileItem.className = "file-item";
+
+    const fileInfo = document.createElement("div");
+    fileInfo.className = "file-info";
+    fileInfo.innerHTML = `
+            <div class="file-name">${file.name}</div>
+            <div class="sheet-count" id="sheet-count-${index}">Checking sheets...</div>
+        `;
+
+    const removeBtn = document.createElement("button");
+    removeBtn.className = "remove-btn";
+    removeBtn.textContent = "Remove";
+    removeBtn.onclick = () => this.removeFile(index);
+
+    fileItem.appendChild(fileInfo);
+    fileItem.appendChild(removeBtn);
+
+    return fileItem;
+  }
+
+  async checkSheetCount(file, index) {
+    const reader = new FileReader();
+
+    reader.onload = (e) => {
+      try {
+        const data = new Uint8Array(e.target.result);
+        const workbook = XLSX.read(data, { type: "array" });
+        const sheetCount = workbook.SheetNames.length;
+
+        const sheetCountEl = document.getElementById(`sheet-count-${index}`);
+        if (sheetCountEl) {
+          sheetCountEl.textContent = `${sheetCount} sheets`;
+        }
+      } catch (error) {
+        const sheetCountEl = document.getElementById(`sheet-count-${index}`);
+        if (sheetCountEl) {
+          sheetCountEl.textContent = "Read error";
+        }
+      }
+    };
+
+    reader.readAsArrayBuffer(file);
+  }
+
+  removeFile(index) {
+    this.uploadedFiles.splice(index, 1);
+    this.updateFileList();
+    this.updateMergeButton();
+  }
+
+  clearFiles() {
+    this.uploadedFiles = [];
+    const fileInput = document.getElementById("fileInput");
+    if (fileInput) fileInput.value = "";
+
+    this.updateFileList();
+    this.updateMergeButton();
+    this.hideElements(["stats", "previewContainer", "downloadSection"]);
+    this.mergedWorkbook = null;
+    this.mergedData = [];
+  }
+
+  updateMergeButton() {
+    const mergeBtn = document.getElementById("mergeBtn");
+    if (mergeBtn) {
+      mergeBtn.disabled = this.uploadedFiles.length === 0;
+    }
+  }
+
+  // File merging
+  async mergeFiles() {
+    if (this.uploadedFiles.length === 0) return;
+
+    this.showProgress(true);
+    this.hideElements(["stats", "previewContainer", "downloadSection"]);
+
+    const mergeBtn = document.getElementById("mergeBtn");
+    if (mergeBtn) mergeBtn.disabled = true;
+
+    this.mergedData = [];
+    let totalSheets = 0;
+    let processedSheets = 0;
+
+    try {
+      // Calculate total sheet count
+      for (const file of this.uploadedFiles) {
+        const arrayBuffer = await this.readFileAsArrayBuffer(file);
+        const workbook = XLSX.read(arrayBuffer, { type: "array" });
+        totalSheets += workbook.SheetNames.length;
+      }
+
+      // Process each file
+      for (
+        let fileIndex = 0;
+        fileIndex < this.uploadedFiles.length;
+        fileIndex++
+      ) {
+        const file = this.uploadedFiles[fileIndex];
+        this.updateProgressText(`Processing ${file.name}...`);
+
+        const arrayBuffer = await this.readFileAsArrayBuffer(file);
+        const workbook = XLSX.read(arrayBuffer, { type: "array" });
+
+        // Process each sheet
+        workbook.SheetNames.forEach((sheetName) => {
+          const sheet = workbook.Sheets[sheetName];
+          const jsonData = XLSX.utils.sheet_to_json(sheet, { header: 1 });
+
+          if (jsonData.length > 0) {
+            // Add header only from first sheet of first file
+            if (this.mergedData.length === 0) {
+              this.mergedData.push(jsonData[0]);
+            }
+
+            // Add data rows (excluding header)
+            for (let i = 1; i < jsonData.length; i++) {
+              if (
+                jsonData[i].some((cell) => cell !== undefined && cell !== "")
+              ) {
+                this.mergedData.push(jsonData[i]);
+              }
+            }
+          }
+
+          processedSheets++;
+          this.updateProgressBar((processedSheets / totalSheets) * 100);
+        });
+      }
+
+      // 통계 업데이트
+      this.updateStats({
+        totalFiles: this.uploadedFiles.length,
+        totalSheets: totalSheets,
+        totalRows: this.mergedData.length - 1,
+      });
+
+      // 새 워크북 생성
+      this.updateProgressText("Generating file...");
+      this.mergedWorkbook = XLSX.utils.book_new();
+      const newSheet = XLSX.utils.aoa_to_sheet(this.mergedData);
+      XLSX.utils.book_append_sheet(this.mergedWorkbook, newSheet, "통합데이터");
+
+      // 미리보기 표시
+      this.showPreview();
+
+      this.updateProgressText("Complete!");
+      this.showElements(["stats", "previewContainer", "downloadSection"]);
+    } catch (error) {
+      alert("An error occurred while processing files: " + error.message);
+      console.error(error);
+    } finally {
+      setTimeout(() => {
+        this.showProgress(false);
+        this.updateProgressBar(0);
+        if (mergeBtn) mergeBtn.disabled = false;
+      }, 2000);
+    }
+  }
+
+  readFileAsArrayBuffer(file) {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = (e) => resolve(e.target.result);
+      reader.onerror = reject;
+      reader.readAsArrayBuffer(file);
+    });
+  }
+
+  // UI 업데이트 메서드들
+  showProgress(show) {
+    const progress = document.getElementById("progress");
+    if (progress) {
+      progress.classList.toggle("active", show);
+    }
+  }
+
+  updateProgressText(text) {
+    const progressText = document.getElementById("progressText");
+    if (progressText) {
+      progressText.textContent = text;
+    }
+  }
+
+  updateProgressBar(percent) {
+    const progressFill = document.getElementById("progressFill");
+    if (progressFill) {
+      progressFill.style.width = percent + "%";
+    }
+  }
+
+  updateStats(stats) {
+    document.getElementById("totalFiles").textContent = stats.totalFiles;
+    document.getElementById("totalSheets").textContent = stats.totalSheets;
+    document.getElementById("totalRows").textContent = stats.totalRows;
+  }
+
+  showPreview() {
+    const previewHead = document.getElementById("previewHead");
+    const previewBody = document.getElementById("previewBody");
+    const previewInfo = document.getElementById("previewInfo");
+
+    if (!previewHead || !previewBody || !previewInfo) return;
+
+    // 미리보기 정보
+    const rowCount = this.mergedData.length - 1;
+    const previewCount = Math.min(100, rowCount);
+    previewInfo.textContent = `총 ${rowCount}행 중 ${previewCount}행 표시`;
+
+    // 헤더 생성
+    previewHead.innerHTML = "";
+    if (this.mergedData.length > 0) {
+      const headerRow = document.createElement("tr");
+      this.mergedData[0].forEach((header) => {
+        const th = document.createElement("th");
+        th.textContent = header || "";
+        headerRow.appendChild(th);
+      });
+      previewHead.appendChild(headerRow);
+    }
+
+    // 바디 생성 (최대 100행)
+    previewBody.innerHTML = "";
+    for (let i = 1; i < Math.min(101, this.mergedData.length); i++) {
+      const row = document.createElement("tr");
+      this.mergedData[i].forEach((cell) => {
+        const td = document.createElement("td");
+        td.textContent = cell || "";
+        row.appendChild(td);
+      });
+      previewBody.appendChild(row);
+    }
+  }
+
+  downloadMergedFile() {
+    if (!this.mergedWorkbook) {
+      alert("No file to download.");
+      return;
+    }
+
+    try {
+      const date = new Date();
+      const filename = `통합_엑셀_${ExcelWizardApp.formatDate(date)}.xlsx`;
+      XLSX.writeFile(this.mergedWorkbook, filename);
+    } catch (error) {
+      alert("An error occurred during download: " + error.message);
+      console.error(error);
+    }
+  }
+
+  // Utility methods
+  showElements(ids) {
+    ids.forEach((id) => ExcelWizardApp.showElement(id));
+  }
+
+  hideElements(ids) {
+    ids.forEach((id) => ExcelWizardApp.hideElement(id));
+  }
+}
