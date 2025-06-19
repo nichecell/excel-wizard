@@ -58,8 +58,8 @@
         <h1>🧙‍♂️ Excel Wizard</h1>
         <p>Detecting your language...</p>
         <div class="language-selector">
-            <a href="/ko/" class="lang-btn">한국어</a>
-            <a href="/en/" class="lang-btn">English</a>
+            <a href="./ko/" class="lang-btn">한국어</a>
+            <a href="./en/" class="lang-btn">English</a>
         </div>
     </div>
 
@@ -75,17 +75,15 @@
             
             let redirectPath;
             if (savedLang) {
-                redirectPath = savedLang === 'ko' ? '/ko/' : '/en/';
+                redirectPath = savedLang === 'ko' ? './ko/' : './en/';
             } else if (primaryLang === 'ko') {
-                redirectPath = '/ko/';
+                redirectPath = './ko/';
             } else {
-                redirectPath = '/en/';
+                redirectPath = './ko/'; // 디폴트를 한국어로 설정
             }
             
-            // 1초 후 리다이렉션 (로딩 애니메이션 표시)
-            setTimeout(() => {
-                window.location.href = redirectPath;
-            }, 1000);
+            // 즉시 리다이렉션
+            window.location.href = redirectPath;
         }
         
         function getCookie(name) {
