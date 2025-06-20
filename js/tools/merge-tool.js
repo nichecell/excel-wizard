@@ -27,7 +27,7 @@ class ExcelMergeTool {
       uploadArea.addEventListener("drop", this.handleDrop.bind(this));
       uploadArea.addEventListener("click", (e) => {
         // label을 클릭한 경우가 아닐 때만 파일 입력 클릭
-        if (!e.target.closest('label')) {
+        if (!e.target.closest("label")) {
           fileInput.click();
         }
       });
@@ -116,12 +116,16 @@ class ExcelMergeTool {
     fileInfo.className = "file-info";
     fileInfo.innerHTML = `
             <div class="file-name">${file.name}</div>
-            <div class="sheet-count" id="sheet-count-${index}">시트 수 확인 중...</div>
+            <div class="sheet-count" id="sheet-count-${index}">${
+      window.t
+        ? window.t("dataMerge.progress.checkingSheets")
+        : "시트 수 확인 중..."
+    }</div>
         `;
 
     const removeBtn = document.createElement("button");
     removeBtn.className = "remove-btn";
-    removeBtn.textContent = "제거";
+    removeBtn.textContent = window.t ? window.t("common.remove") : "제거";
     removeBtn.onclick = () => this.removeFile(index);
 
     fileItem.appendChild(fileInfo);
@@ -141,12 +145,16 @@ class ExcelMergeTool {
 
         const sheetCountEl = document.getElementById(`sheet-count-${index}`);
         if (sheetCountEl) {
-          sheetCountEl.textContent = `${sheetCount}개 시트`;
+          sheetCountEl.textContent = window.t
+            ? window.t("sheetSelector.info.sheetCount", { count: sheetCount })
+            : `${sheetCount}개 시트`;
         }
       } catch (error) {
         const sheetCountEl = document.getElementById(`sheet-count-${index}`);
         if (sheetCountEl) {
-          sheetCountEl.textContent = "읽기 오류";
+          sheetCountEl.textContent = window.t
+            ? window.t("dataMerge.errors.readError")
+            : "읽기 오류";
         }
       }
     };
@@ -208,7 +216,13 @@ class ExcelMergeTool {
         fileIndex++
       ) {
         const file = this.uploadedFiles[fileIndex];
-        this.updateProgressText(`${file.name} 처리 중...`);
+        this.updateProgressText(
+          window.t
+            ? window.t("dataMerge.progress.processing", {
+                fileName: file.name,
+              })
+            : `${file.name} 처리 중...`
+        );
 
         const arrayBuffer = await this.readFileAsArrayBuffer(file);
         const workbook = XLSX.read(arrayBuffer, { type: "array" });
@@ -247,18 +261,32 @@ class ExcelMergeTool {
       });
 
       // 새 워크북 생성
-      this.updateProgressText("파일 생성 중...");
+      this.updateProgressText(
+        window.t ? window.t("dataMerge.progress.generating") : "파일 생성 중..."
+      );
       this.mergedWorkbook = XLSX.utils.book_new();
       const newSheet = XLSX.utils.aoa_to_sheet(this.mergedData);
-      XLSX.utils.book_append_sheet(this.mergedWorkbook, newSheet, "통합데이터");
+      XLSX.utils.book_append_sheet(
+        this.mergedWorkbook,
+        newSheet,
+        window.t ? window.t("dataMerge.fileNames.merged") : "통합데이터"
+      );
 
       // 미리보기 표시
       this.showPreview();
 
-      this.updateProgressText("완료!");
+      this.updateProgressText(
+        window.t ? window.t("dataMerge.progress.complete") : "완료!"
+      );
       this.showElements(["stats", "previewContainer", "downloadSection"]);
     } catch (error) {
-      alert("파일 처리 중 오류가 발생했습니다: " + error.message);
+      alert(
+        (window.t
+          ? window.t("dataMerge.errors.processingError")
+          : "파일 처리 중 오류가 발생했습니다:") +
+          " " +
+          error.message
+      );
       console.error(error);
     } finally {
       setTimeout(() => {
@@ -316,7 +344,12 @@ class ExcelMergeTool {
     // 미리보기 정보
     const rowCount = this.mergedData.length - 1;
     const previewCount = Math.min(100, rowCount);
-    previewInfo.textContent = `총 ${rowCount}행 중 ${previewCount}행 표시`;
+    previewInfo.textContent = window.t
+      ? window.t("dataMerge.preview.info", {
+          rowCount: rowCount,
+          previewCount: previewCount,
+        })
+      : `총 ${rowCount}행 중 ${previewCount}행 표시`;
 
     // 헤더 생성
     previewHead.innerHTML = "";
@@ -345,16 +378,28 @@ class ExcelMergeTool {
 
   downloadMergedFile() {
     if (!this.mergedWorkbook) {
-      alert("다운로드할 파일이 없습니다.");
+      alert(
+        window.t
+          ? window.t("common.messages.noFileToDownload")
+          : "다운로드할 파일이 없습니다."
+      );
       return;
     }
 
     try {
       const date = new Date();
-      const filename = `통합_엑셀_${ExcelWizardApp.formatDate(date)}.xlsx`;
+      const filename = `${
+        window.t ? window.t("dataMerge.fileNames.prefix") : "통합_엑셀_"
+      }${ExcelWizardApp.formatDate(date)}.xlsx`;
       XLSX.writeFile(this.mergedWorkbook, filename);
     } catch (error) {
-      alert("다운로드 중 오류가 발생했습니다: " + error.message);
+      alert(
+        (window.t
+          ? window.t("dataMerge.errors.downloadError")
+          : "다운로드 중 오류가 발생했습니다:") +
+          " " +
+          error.message
+      );
       console.error(error);
     }
   }

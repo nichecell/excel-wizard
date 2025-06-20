@@ -92,7 +92,11 @@ class SheetCreatorTool {
       sheetList.innerHTML = `
                 <div class="empty-state">
                     <div class="empty-state-icon">📄</div>
-                    <p>시트 이름을 입력하면 여기에 미리보기가 표시됩니다</p>
+                    <p>${
+                      window.t
+                        ? window.t("sheetCreator.emptyState")
+                        : "시트 이름을 입력하면 여기에 미리보기가 표시됩니다"
+                    }</p>
                 </div>
             `;
     } else {
@@ -108,12 +112,18 @@ class SheetCreatorTool {
     }
 
     // 시트 개수 표시
-    sheetCount.textContent = `총 ${this.sheetNames.length}개의 시트가 생성됩니다`;
+    sheetCount.textContent = window.t
+      ? window.t("sheetCreator.sheetCount", { count: this.sheetNames.length })
+      : `총 ${this.sheetNames.length}개의 시트가 생성됩니다`;
   }
 
   createSheets() {
     if (this.sheetNames.length === 0) {
-      alert("시트 이름을 입력해주세요.");
+      alert(
+        window.t
+          ? window.t("common.messages.pleaseEnterSheetNames")
+          : "시트 이름을 입력해주세요."
+      );
       return;
     }
 
@@ -125,7 +135,9 @@ class SheetCreatorTool {
       this.sheetNames.forEach((sheetName) => {
         // 빈 워크시트 생성 (헤더만 있는 기본 시트)
         const worksheetData = [
-          ["A열", "B열", "C열", "D열", "E열"], // 기본 헤더
+          window.t
+            ? window.t("common.defaultColumns")
+            : ["A열", "B열", "C열", "D열", "E열"], // 기본 헤더
           ["", "", "", "", ""], // 빈 데이터 행 하나 추가
         ];
 
@@ -141,25 +153,47 @@ class SheetCreatorTool {
         downloadSection.classList.add("active");
       }
 
-      alert(`${this.sheetNames.length}개의 시트가 성공적으로 생성되었습니다!`);
+      alert(
+        window.t
+          ? window.t("sheetCreator.success", { count: this.sheetNames.length })
+          : `${this.sheetNames.length}개의 시트가 성공적으로 생성되었습니다!`
+      );
     } catch (error) {
-      alert("시트 생성 중 오류가 발생했습니다: " + error.message);
+      alert(
+        (window.t
+          ? window.t("sheetCreator.error")
+          : "시트 생성 중 오류가 발생했습니다:") +
+          " " +
+          error.message
+      );
       console.error(error);
     }
   }
 
   downloadWorkbook() {
     if (!this.workbook) {
-      alert("먼저 시트를 생성해주세요.");
+      alert(
+        window.t
+          ? window.t("common.messages.pleaseCreateSheetsFirst")
+          : "먼저 시트를 생성해주세요."
+      );
       return;
     }
 
     try {
       const date = new Date();
-      const filename = `시트모음_${ExcelWizardApp.formatDate(date)}.xlsx`;
+      const filename = `${
+        window.t ? window.t("sheetCreator.filePrefix") : "시트모음_"
+      }${ExcelWizardApp.formatDate(date)}.xlsx`;
       XLSX.writeFile(this.workbook, filename);
     } catch (error) {
-      alert("다운로드 중 오류가 발생했습니다: " + error.message);
+      alert(
+        (window.t
+          ? window.t("common.messages.downloadError")
+          : "다운로드 중 오류가 발생했습니다:") +
+          " " +
+          error.message
+      );
       console.error(error);
     }
   }
@@ -201,20 +235,35 @@ class SheetCreatorTool {
   insertSampleData() {
     const sheetNamesInput = document.getElementById("sheetNamesInput");
     if (sheetNamesInput) {
-      const sampleData = [
-        "1월",
-        "2월",
-        "3월",
-        "4월",
-        "5월",
-        "6월",
-        "7월",
-        "8월",
-        "9월",
-        "10월",
-        "11월",
-        "12월",
-      ].join("\n");
+      const sampleData = window.t
+        ? [
+            window.t("common.months.jan"),
+            window.t("common.months.feb"),
+            window.t("common.months.mar"),
+            window.t("common.months.apr"),
+            window.t("common.months.may"),
+            window.t("common.months.jun"),
+            window.t("common.months.jul"),
+            window.t("common.months.aug"),
+            window.t("common.months.sep"),
+            window.t("common.months.oct"),
+            window.t("common.months.nov"),
+            window.t("common.months.dec"),
+          ].join("\n")
+        : [
+            "1월",
+            "2월",
+            "3월",
+            "4월",
+            "5월",
+            "6월",
+            "7월",
+            "8월",
+            "9월",
+            "10월",
+            "11월",
+            "12월",
+          ].join("\n");
 
       sheetNamesInput.value = sampleData;
       this.handleInputChange({ target: sheetNamesInput });

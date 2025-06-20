@@ -118,7 +118,11 @@ class TableOrganizerTool {
   // 단계 전환
   goToStep2() {
     if (this.rawData.length === 0) {
-      alert("데이터를 입력해주세요.");
+      alert(
+        window.t
+          ? window.t("common.messages.pleaseEnterData")
+          : "데이터를 입력해주세요."
+      );
       return;
     }
 
@@ -187,25 +191,33 @@ class TableOrganizerTool {
     columnHeaders.innerHTML = "";
 
     // 기본 열 이름들
-    const defaultHeaders = [
-      "번호",
-      "이름",
-      "별명",
-      "상태",
-      "카테고리",
-      "값",
-      "설명",
-      "타입",
-      "등급",
-      "점수",
-    ];
+    const defaultHeaders = window.t
+      ? window.t("tableOrganizer.columnDefaults")
+      : [
+          "번호",
+          "이름",
+          "별명",
+          "상태",
+          "카테고리",
+          "값",
+          "설명",
+          "타입",
+          "등급",
+          "점수",
+        ];
 
     for (let i = 0; i < columnCount; i++) {
       const input = document.createElement("input");
       input.type = "text";
       input.className = "column-header-input";
-      input.placeholder = `${i + 1}번째 열 이름`;
-      input.value = defaultHeaders[i] || `열${i + 1}`;
+      input.placeholder = window.t
+        ? window.t("tableOrganizer.columnPlaceholder", { index: i + 1 })
+        : `${i + 1}번째 열 이름`;
+      input.value =
+        defaultHeaders[i] ||
+        (window.t
+          ? window.t("tableOrganizer.columnDefault", { index: i + 1 })
+          : `열${i + 1}`);
       input.dataset.index = i;
       columnHeaders.appendChild(input);
     }
@@ -216,7 +228,11 @@ class TableOrganizerTool {
     this.collectColumnHeaders();
 
     if (this.columnHeaders.length === 0) {
-      alert("열 이름을 설정해주세요.");
+      alert(
+        window.t
+          ? window.t("common.messages.pleaseSetColumnNames")
+          : "열 이름을 설정해주세요."
+      );
       return;
     }
 
@@ -229,7 +245,13 @@ class TableOrganizerTool {
   collectColumnHeaders() {
     const headerInputs = document.querySelectorAll(".column-header-input");
     this.columnHeaders = Array.from(headerInputs).map(
-      (input) => input.value.trim() || `열${parseInt(input.dataset.index) + 1}`
+      (input) =>
+        input.value.trim() ||
+        (window.t
+          ? window.t("tableOrganizer.columnDefault", {
+              index: parseInt(input.dataset.index) + 1,
+            })
+          : `열${parseInt(input.dataset.index) + 1}`)
     );
   }
 
@@ -309,7 +331,11 @@ class TableOrganizerTool {
       await navigator.clipboard.write([clipboardItem]);
 
       // 성공 메시지 표시
-      this.showSuccessMessage("표가 클립보드에 복사되었습니다!");
+      this.showSuccessMessage(
+        window.t
+          ? window.t("common.messages.tableCopiedSuccess")
+          : "표가 클립보드에 복사되었습니다!"
+      );
     } catch (error) {
       // 폴백: 텍스트만 복사
       try {
@@ -319,11 +345,15 @@ class TableOrganizerTool {
         });
         await navigator.clipboard.writeText(textData);
         this.showSuccessMessage(
-          "표가 텍스트 형태로 클립보드에 복사되었습니다!"
+          window.t
+            ? window.t("common.messages.tableCopiedAsText")
+            : "표가 텍스트 형태로 클립보드에 복사되었습니다!"
         );
       } catch (fallbackError) {
         alert(
-          "복사에 실패했습니다. 브라우저가 클립보드 기능을 지원하지 않습니다."
+          window.t
+            ? window.t("common.messages.copyFailed")
+            : "복사에 실패했습니다. 브라우저가 클립보드 기능을 지원하지 않습니다."
         );
       }
     }
@@ -342,14 +372,26 @@ class TableOrganizerTool {
       const worksheet = XLSX.utils.aoa_to_sheet(worksheetData);
 
       // 워크시트를 워크북에 추가
-      XLSX.utils.book_append_sheet(workbook, worksheet, "정리된표");
+      XLSX.utils.book_append_sheet(
+        workbook,
+        worksheet,
+        window.t ? window.t("tableOrganizer.fileNames.worksheet") : "정리된표"
+      );
 
       // 파일 다운로드
       const date = new Date();
-      const filename = `정리된표_${ExcelWizardApp.formatDate(date)}.xlsx`;
+      const filename = `${
+        window.t ? window.t("tableOrganizer.fileNames.prefix") : "정리된표_"
+      }${ExcelWizardApp.formatDate(date)}.xlsx`;
       XLSX.writeFile(workbook, filename);
     } catch (error) {
-      alert("다운로드 중 오류가 발생했습니다: " + error.message);
+      alert(
+        (window.t
+          ? window.t("tableOrganizer.errors.downloadError")
+          : "다운로드 중 오류가 발생했습니다:") +
+          " " +
+          error.message
+      );
       console.error(error);
     }
   }
@@ -406,20 +448,35 @@ class TableOrganizerTool {
   insertSampleData() {
     const rawDataInput = document.getElementById("rawDataInput");
     if (rawDataInput) {
-      const sampleData = [
-        "1",
-        "가",
-        "가가",
-        "2",
-        "나",
-        "나나",
-        "3",
-        "다",
-        "다다",
-        "4",
-        "라",
-        "라라",
-      ].join("\n");
+      const sampleData = window.t
+        ? [
+            "1",
+            window.t("tableOrganizer.sampleData.a"),
+            window.t("tableOrganizer.sampleData.aa"),
+            "2",
+            window.t("tableOrganizer.sampleData.b"),
+            window.t("tableOrganizer.sampleData.bb"),
+            "3",
+            window.t("tableOrganizer.sampleData.c"),
+            window.t("tableOrganizer.sampleData.cc"),
+            "4",
+            window.t("tableOrganizer.sampleData.d"),
+            window.t("tableOrganizer.sampleData.dd"),
+          ].join("\n")
+        : [
+            "1",
+            "가",
+            "가가",
+            "2",
+            "나",
+            "나나",
+            "3",
+            "다",
+            "다다",
+            "4",
+            "라",
+            "라라",
+          ].join("\n");
 
       rawDataInput.value = sampleData;
       this.handleDataInput({ target: rawDataInput });

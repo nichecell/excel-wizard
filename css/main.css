@@ -44,7 +44,46 @@ body {
     max-width: 1200px;
     margin: 0 auto;
     padding: 0 20px;
+    position: relative;
     text-align: center;
+}
+
+.header-main {
+    text-align: center;
+}
+
+/* 언어 전환 버튼 */
+.language-switcher {
+    display: flex;
+    gap: 8px;
+    position: absolute;
+    top: 50%;
+    right: 20px;
+    transform: translateY(-50%);
+}
+
+.lang-btn {
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: white;
+    padding: 8px 16px;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(10px);
+}
+
+.lang-btn:hover {
+    background: rgba(255, 255, 255, 0.2);
+    border-color: rgba(255, 255, 255, 0.4);
+}
+
+.lang-btn.active {
+    background: white;
+    color: var(--primary-color);
+    font-weight: 600;
+    border-color: white;
 }
 
 .app-title {
@@ -204,6 +243,26 @@ body {
     text-align: center;
     color: var(--text-secondary);
     font-size: 0.9rem;
+}
+
+.app-footer p {
+    margin: 0.5rem 0;
+}
+
+.footer-link {
+    color: var(--primary-color);
+    text-decoration: none;
+    transition: opacity 0.3s ease;
+}
+
+.footer-link:hover {
+    opacity: 0.8;
+    text-decoration: underline;
+}
+
+.footer-divider {
+    margin: 0 1rem;
+    color: #ccc;
 }
 
 /* 반응형 디자인 */

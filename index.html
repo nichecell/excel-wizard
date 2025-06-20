@@ -1,99 +1,1073 @@
 <!DOCTYPE html>
-<html>
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Excel Wizard - Redirecting...</title>
-    <style>
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-        }
-        .loader {
-            text-align: center;
-        }
-        .spinner {
-            width: 40px;
-            height: 40px;
-            border: 4px solid rgba(255,255,255,0.3);
-            border-top: 4px solid white;
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-            margin: 0 auto 20px;
-        }
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-        .language-selector {
-            margin-top: 30px;
-        }
-        .lang-btn {
-            background: rgba(255,255,255,0.2);
-            border: 2px solid rgba(255,255,255,0.3);
-            color: white;
-            padding: 10px 20px;
-            margin: 0 10px;
-            border-radius: 25px;
-            cursor: pointer;
-            text-decoration: none;
-            display: inline-block;
-            transition: all 0.3s ease;
-        }
-        .lang-btn:hover {
-            background: rgba(255,255,255,0.3);
-            border-color: rgba(255,255,255,0.5);
-        }
-    </style>
-</head>
-<body>
-    <div class="loader">
-        <div class="spinner"></div>
-        <h1>🧙‍♂️ Excel Wizard</h1>
-        <p>Detecting your language...</p>
-        <div class="language-selector">
-            <a href="./ko/" class="lang-btn">한국어</a>
-            <a href="./en/" class="lang-btn">English</a>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title data-i18n="meta.title">
+      Excel Wizard - 엑셀 마법사 | 온라인 엑셀 병합 도구
+    </title>
+
+    <!-- Cache Control -->
+    <meta
+      http-equiv="Cache-Control"
+      content="no-cache, no-store, must-revalidate"
+    />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Expires" content="0" />
+
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="" data-i18n-content="meta.description" />
+    <meta name="keywords" content="" data-i18n-content="meta.keywords" />
+    <meta name="robots" content="index, follow" />
+    <meta name="author" content="Excel Wizard" />
+    <link rel="canonical" href="https://excelwizard.help/" />
+
+    <!-- Language and Internationalization -->
+    <link
+      rel="alternate"
+      hreflang="ko"
+      href="https://excelwizard.help/?lang=ko"
+    />
+    <link
+      rel="alternate"
+      hreflang="en"
+      href="https://excelwizard.help/?lang=en"
+    />
+    <link
+      rel="alternate"
+      hreflang="x-default"
+      href="https://excelwizard.help/"
+    />
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://excelwizard.help/" />
+    <meta property="og:title" content="" data-i18n-content="meta.title" />
+    <meta
+      property="og:description"
+      content=""
+      data-i18n-content="meta.description"
+    />
+    <meta
+      property="og:image"
+      content="https://excelwizard.help/shared/images/og-image.png"
+    />
+    <meta property="og:site_name" content="Excel Wizard" />
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image" />
+    <meta property="twitter:url" content="https://excelwizard.help/" />
+    <meta property="twitter:title" content="" data-i18n-content="meta.title" />
+    <meta
+      property="twitter:description"
+      content=""
+      data-i18n-content="meta.description"
+    />
+    <meta
+      property="twitter:image"
+      content="https://excelwizard.help/shared/images/twitter-image.png"
+    />
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="shared/favicon.ico" />
+    <link rel="apple-touch-icon" href="shared/apple-touch-icon.png" />
+
+    <!-- Structured Data -->
+    <script type="application/ld+json" id="structured-data">
+      {
+        "@context": "https://schema.org",
+        "@type": "WebApplication",
+        "name": "Excel Wizard",
+        "description": "",
+        "url": "https://excelwizard.help/",
+        "applicationCategory": "BusinessApplication",
+        "operatingSystem": "Any",
+        "offers": {
+          "@type": "Offer",
+          "price": "0",
+          "priceCurrency": "USD"
+        },
+        "inLanguage": "ko-KR"
+      }
+    </script>
+
+    <!-- CSS Files -->
+    <link rel="stylesheet" href="css/main.css?v=1.6" />
+    <link rel="stylesheet" href="css/merge-tool.css?v=1.2" />
+    <link rel="stylesheet" href="css/sheet-creator.css?v=1.2" />
+    <link rel="stylesheet" href="css/table-organizer.css?v=1.2" />
+    <link rel="stylesheet" href="css/sheet-selector.css?v=1.2" />
+    <link rel="stylesheet" href="css/diagram.css?v=1.2" />
+
+    <!-- External Libraries -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+
+    <!-- i18n System -->
+    <script src="i18n/translations.js?v=1.6"></script>
+    <script src="i18n/i18n.js?v=1.6"></script>
+
+    <!-- Plausible Analytics -->
+    <script
+      defer
+      data-domain="excelwizard.help"
+      src="https://plausible.io/js/script.js"
+    ></script>
+  </head>
+  <body>
+    <div class="app-container">
+      <!-- Header -->
+      <header class="app-header">
+        <div class="header-content">
+          <div class="header-main">
+            <h1 class="app-title" data-i18n="header.title">🧙‍♂️ Excel Wizard</h1>
+            <p class="app-subtitle" data-i18n="header.subtitle">
+              엑셀 작업을 쉽고 빠르게
+            </p>
+          </div>
+          <div class="language-switcher">
+            <button
+              class="lang-btn active"
+              data-lang="ko"
+              onclick="switchLanguage('ko')"
+            >
+              한국어
+            </button>
+            <button
+              class="lang-btn"
+              data-lang="en"
+              onclick="switchLanguage('en')"
+            >
+              English
+            </button>
+          </div>
         </div>
+      </header>
+
+      <!-- Navigation -->
+      <nav class="tool-navigation">
+        <button class="nav-btn active" data-tool="merge">
+          <span class="nav-icon">🔀</span>
+          <span class="nav-text" data-i18n="nav.dataMerge">데이터 병합</span>
+        </button>
+        <button class="nav-btn" data-tool="split">
+          <span class="nav-icon">📝</span>
+          <span class="nav-text" data-i18n="nav.sheetCreator">시트 생성</span>
+        </button>
+        <button class="nav-btn" data-tool="convert">
+          <span class="nav-icon">📋</span>
+          <span class="nav-text" data-i18n="nav.tableOrganizer">표 정리</span>
+        </button>
+        <button class="nav-btn" data-tool="analyze">
+          <span class="nav-icon">🔗</span>
+          <span class="nav-text" data-i18n="nav.sheetSelector">시트 선택</span>
+        </button>
+      </nav>
+
+      <!-- Main Content Area -->
+      <main class="main-content">
+        <!-- Data Merge Tool -->
+        <div id="merge-tool" class="tool-container active">
+          <h2 class="tool-title" data-i18n="dataMerge.title">데이터 병합</h2>
+
+          <!-- Diagram -->
+          <div class="tool-diagram">
+            <div class="diagram-title" data-i18n="dataMerge.diagramTitle">
+              💡 데이터 병합이란?
+            </div>
+            <div class="diagram-content">
+              <div class="diagram-step">
+                <div class="file-example">
+                  <div class="file-icon">📄</div>
+                  <div class="file-name">File1.xlsx</div>
+                  <div class="file-table">
+                    <table>
+                      <tr>
+                        <th data-i18n="common.sampleData.name">이름</th>
+                        <th data-i18n="common.sampleData.age">나이</th>
+                      </tr>
+                      <tr>
+                        <td>John</td>
+                        <td>25</td>
+                      </tr>
+                      <tr>
+                        <td>Jane</td>
+                        <td>28</td>
+                      </tr>
+                    </table>
+                  </div>
+                </div>
+                <div class="plus-icon">+</div>
+                <div class="file-example">
+                  <div class="file-icon">📄</div>
+                  <div class="file-name">File2.xlsx</div>
+                  <div class="file-table">
+                    <table>
+                      <tr>
+                        <th data-i18n="common.sampleData.name">이름</th>
+                        <th data-i18n="common.sampleData.age">나이</th>
+                      </tr>
+                      <tr>
+                        <td>Mike</td>
+                        <td>30</td>
+                      </tr>
+                      <tr>
+                        <td>Sarah</td>
+                        <td>22</td>
+                      </tr>
+                    </table>
+                  </div>
+                </div>
+                <div class="arrow-icon">→</div>
+                <div class="file-example result">
+                  <div class="file-icon">📄</div>
+                  <div class="file-name">MergedFile.xlsx</div>
+                  <div class="file-table">
+                    <table>
+                      <tr>
+                        <th data-i18n="common.sampleData.name">이름</th>
+                        <th data-i18n="common.sampleData.age">나이</th>
+                      </tr>
+                      <tr>
+                        <td>John</td>
+                        <td>25</td>
+                      </tr>
+                      <tr>
+                        <td>Jane</td>
+                        <td>28</td>
+                      </tr>
+                      <tr>
+                        <td>Mike</td>
+                        <td>30</td>
+                      </tr>
+                      <tr>
+                        <td>Sarah</td>
+                        <td>22</td>
+                      </tr>
+                    </table>
+                  </div>
+                </div>
+              </div>
+              <p
+                class="diagram-description"
+                data-i18n="dataMerge.diagramDescription"
+              >
+                동일한 구조의 여러 엑셀 파일을 하나의 시트로 합칩니다
+              </p>
+            </div>
+          </div>
+
+          <div class="upload-area" id="uploadArea">
+            <div class="upload-icon">📁</div>
+            <p class="upload-text" data-i18n="dataMerge.uploadText">
+              엑셀 파일들을 드래그하여 놓거나<br />
+              아래 버튼을 클릭하여 선택하세요
+            </p>
+            <label
+              for="fileInput"
+              class="upload-label"
+              data-i18n="dataMerge.selectFiles"
+              >파일 선택하기</label
+            >
+            <input type="file" id="fileInput" multiple accept=".xls,.xlsx" />
+            <p class="upload-hint" data-i18n="dataMerge.uploadHint">
+              .xls, .xlsx 파일 지원
+            </p>
+          </div>
+
+          <div class="file-list" id="fileList"></div>
+
+          <div class="progress" id="progress">
+            <div
+              class="progress-text"
+              id="progressText"
+              data-i18n="dataMerge.processing"
+            >
+              처리 중...
+            </div>
+            <div class="progress-bar">
+              <div class="progress-fill" id="progressFill"></div>
+            </div>
+          </div>
+
+          <div class="stats" id="stats">
+            <div class="stat-item">
+              <span class="stat-label" data-i18n="dataMerge.stats.totalFiles"
+                >총 파일 수:</span
+              >
+              <span class="stat-value" id="totalFiles">0</span>
+            </div>
+            <div class="stat-item">
+              <span class="stat-label" data-i18n="dataMerge.stats.totalSheets"
+                >총 시트 수:</span
+              >
+              <span class="stat-value" id="totalSheets">0</span>
+            </div>
+            <div class="stat-item">
+              <span class="stat-label" data-i18n="dataMerge.stats.totalRows"
+                >총 데이터 행:</span
+              >
+              <span class="stat-value" id="totalRows">0</span>
+            </div>
+          </div>
+
+          <div class="action-buttons">
+            <button
+              class="btn btn-secondary"
+              id="clearBtn"
+              data-i18n="dataMerge.buttons.clear"
+            >
+              초기화
+            </button>
+            <button
+              class="btn btn-primary"
+              id="mergeBtn"
+              disabled
+              data-i18n="dataMerge.buttons.merge"
+            >
+              시트 합치기
+            </button>
+          </div>
+
+          <div class="preview-container" id="previewContainer">
+            <div class="preview-header">
+              <h3 class="preview-title" data-i18n="dataMerge.preview.title">
+                📋 미리보기
+              </h3>
+              <span class="preview-info" id="previewInfo"></span>
+            </div>
+            <div class="table-wrapper">
+              <table id="previewTable">
+                <thead id="previewHead"></thead>
+                <tbody id="previewBody"></tbody>
+              </table>
+            </div>
+          </div>
+
+          <div class="download-section" id="downloadSection">
+            <button
+              class="btn btn-success"
+              id="downloadBtn"
+              data-i18n="dataMerge.buttons.download"
+            >
+              💾 통합 파일 다운로드
+            </button>
+          </div>
+        </div>
+
+        <!-- Sheet Creator Tool -->
+        <div id="split-tool" class="tool-container">
+          <h2 class="tool-title" data-i18n="sheetCreator.title">시트 생성기</h2>
+
+          <div class="tool-diagram">
+            <div class="diagram-title" data-i18n="sheetCreator.diagramTitle">
+              💡 시트 생성기란?
+            </div>
+            <div class="diagram-content">
+              <div class="diagram-step">
+                <div class="text-example">
+                  <div class="text-icon">📝</div>
+                  <div class="text-name" data-i18n="sheetCreator.inputTitle">
+                    텍스트 입력
+                  </div>
+                  <div class="text-content">
+                    <div class="text-line" data-i18n="common.months.jan">
+                      1월
+                    </div>
+                    <div class="text-line" data-i18n="common.months.feb">
+                      2월
+                    </div>
+                    <div class="text-line" data-i18n="common.months.mar">
+                      3월
+                    </div>
+                    <div class="text-line" data-i18n="common.months.apr">
+                      4월
+                    </div>
+                    <div class="text-line" data-i18n="common.months.may">
+                      5월
+                    </div>
+                    <div class="text-line" data-i18n="common.months.jun">
+                      6월
+                    </div>
+                  </div>
+                </div>
+                <div class="arrow-icon">→</div>
+                <div class="file-example result">
+                  <div class="file-icon">📄</div>
+                  <div class="file-name">GeneratedFile.xlsx</div>
+                  <div class="sheet-list">
+                    <div class="sheet-item result">
+                      📋 <span data-i18n="common.months.jan">1월</span>
+                    </div>
+                    <div class="sheet-item result">
+                      📋 <span data-i18n="common.months.feb">2월</span>
+                    </div>
+                    <div class="sheet-item result">
+                      📋 <span data-i18n="common.months.mar">3월</span>
+                    </div>
+                    <div class="sheet-item result">
+                      📋 <span data-i18n="common.months.apr">4월</span>
+                    </div>
+                    <div class="sheet-item result">
+                      📋 <span data-i18n="common.months.may">5월</span>
+                    </div>
+                    <div class="sheet-item result">
+                      📋 <span data-i18n="common.months.jun">6월</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <p
+                class="diagram-description"
+                data-i18n="sheetCreator.diagramDescription"
+              >
+                입력한 텍스트를 각각의 이름으로 하는 시트들을 생성합니다
+              </p>
+            </div>
+          </div>
+
+          <div class="sheet-creator-container">
+            <div class="input-section">
+              <h3 data-i18n="sheetCreator.inputTitle">시트 이름 입력</h3>
+              <p class="input-hint" data-i18n="sheetCreator.inputHint">
+                각 줄에 하나씩 시트 이름을 입력하세요
+              </p>
+              <textarea
+                id="sheetNamesInput"
+                class="sheet-names-input"
+                data-i18n-placeholder="sheetCreator.placeholder"
+                rows="10"
+              ></textarea>
+
+              <div class="input-controls">
+                <button
+                  class="btn btn-secondary"
+                  id="clearSheetNamesBtn"
+                  data-i18n="sheetCreator.buttons.clear"
+                >
+                  초기화
+                </button>
+                <button
+                  class="btn btn-primary"
+                  id="createSheetsBtn"
+                  data-i18n="sheetCreator.buttons.create"
+                >
+                  시트 생성
+                </button>
+              </div>
+            </div>
+
+            <div class="preview-section" id="sheetPreviewSection">
+              <h3 data-i18n="sheetCreator.preview">미리보기</h3>
+              <div class="sheet-list" id="sheetList"></div>
+              <p class="sheet-count" id="sheetCount"></p>
+            </div>
+
+            <div class="download-section" id="sheetDownloadSection">
+              <button
+                class="btn btn-success"
+                id="downloadSheetsBtn"
+                data-i18n="sheetCreator.buttons.download"
+              >
+                💾 엑셀 파일 다운로드
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Table Organizer Tool -->
+        <div id="convert-tool" class="tool-container">
+          <h2 class="tool-title" data-i18n="tableOrganizer.title">
+            데이터 표 정리
+          </h2>
+
+          <div class="tool-diagram">
+            <div class="diagram-title" data-i18n="tableOrganizer.diagramTitle">
+              💡 데이터 표 정리란?
+            </div>
+            <div class="diagram-content">
+              <div class="diagram-step">
+                <div class="text-example">
+                  <div class="text-icon">📝</div>
+                  <div class="text-name" data-i18n="tableOrganizer.step1.name">
+                    세로 나열 데이터
+                  </div>
+                  <div class="text-content vertical">
+                    <div class="text-line">1</div>
+                    <div
+                      class="text-line"
+                      data-i18n="tableOrganizer.sampleData.a"
+                    >
+                      가
+                    </div>
+                    <div
+                      class="text-line"
+                      data-i18n="tableOrganizer.sampleData.aa"
+                    >
+                      가가
+                    </div>
+                    <div class="text-line">2</div>
+                    <div
+                      class="text-line"
+                      data-i18n="tableOrganizer.sampleData.b"
+                    >
+                      나
+                    </div>
+                    <div
+                      class="text-line"
+                      data-i18n="tableOrganizer.sampleData.bb"
+                    >
+                      나나
+                    </div>
+                    <div class="text-line">3</div>
+                    <div
+                      class="text-line"
+                      data-i18n="tableOrganizer.sampleData.c"
+                    >
+                      다
+                    </div>
+                    <div
+                      class="text-line"
+                      data-i18n="tableOrganizer.sampleData.cc"
+                    >
+                      다다
+                    </div>
+                  </div>
+                </div>
+                <div class="plus-icon">+</div>
+                <div class="header-example">
+                  <div class="text-icon">🏷️</div>
+                  <div class="text-name" data-i18n="tableOrganizer.step2.name">
+                    열 이름 설정
+                  </div>
+                  <div class="header-content">
+                    <div
+                      class="header-item"
+                      data-i18n="tableOrganizer.sampleHeaders.number"
+                    >
+                      번호
+                    </div>
+                    <div
+                      class="header-item"
+                      data-i18n="tableOrganizer.sampleHeaders.name"
+                    >
+                      이름
+                    </div>
+                    <div
+                      class="header-item"
+                      data-i18n="tableOrganizer.sampleHeaders.nickname"
+                    >
+                      별명
+                    </div>
+                  </div>
+                </div>
+                <div class="arrow-icon">→</div>
+                <div class="file-example result">
+                  <div class="file-icon">📊</div>
+                  <div class="file-name" data-i18n="tableOrganizer.step3.name">
+                    정리된 표
+                  </div>
+                  <div class="file-table">
+                    <table>
+                      <tr>
+                        <th data-i18n="tableOrganizer.sampleHeaders.number">
+                          번호
+                        </th>
+                        <th data-i18n="tableOrganizer.sampleHeaders.name">
+                          이름
+                        </th>
+                        <th data-i18n="tableOrganizer.sampleHeaders.nickname">
+                          별명
+                        </th>
+                      </tr>
+                      <tr>
+                        <td>1</td>
+                        <td data-i18n="tableOrganizer.sampleData.a">가</td>
+                        <td data-i18n="tableOrganizer.sampleData.aa">가가</td>
+                      </tr>
+                      <tr>
+                        <td>2</td>
+                        <td data-i18n="tableOrganizer.sampleData.b">나</td>
+                        <td data-i18n="tableOrganizer.sampleData.bb">나나</td>
+                      </tr>
+                      <tr>
+                        <td>3</td>
+                        <td data-i18n="tableOrganizer.sampleData.c">다</td>
+                        <td data-i18n="tableOrganizer.sampleData.cc">다다</td>
+                      </tr>
+                    </table>
+                  </div>
+                </div>
+              </div>
+              <p
+                class="diagram-description"
+                data-i18n="tableOrganizer.diagramDescription"
+              >
+                세로로 나열된 데이터를 설정한 열로 정리하여 표 형태로 만듭니다
+              </p>
+            </div>
+          </div>
+
+          <div class="table-organizer-container">
+            <div class="step-section active" id="dataInputStep">
+              <div class="step-header">
+                <h3 data-i18n="tableOrganizer.step1.title">
+                  1단계: 데이터 입력
+                </h3>
+                <p class="step-hint" data-i18n="tableOrganizer.step1.hint">
+                  세로로 나열된 데이터를 입력하세요
+                </p>
+              </div>
+
+              <div class="input-area">
+                <textarea
+                  id="rawDataInput"
+                  class="raw-data-input"
+                  data-i18n-placeholder="tableOrganizer.step1.placeholder"
+                  rows="15"
+                ></textarea>
+
+                <div class="input-controls">
+                  <button
+                    class="btn btn-secondary"
+                    id="clearDataBtn"
+                    data-i18n="tableOrganizer.buttons.clear"
+                  >
+                    초기화
+                  </button>
+                  <button
+                    class="btn btn-primary"
+                    id="nextStepBtn"
+                    disabled
+                    data-i18n="tableOrganizer.buttons.next"
+                  >
+                    다음 단계
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <div class="step-section" id="columnSetupStep">
+              <div class="step-header">
+                <h3 data-i18n="tableOrganizer.step2.title">
+                  2단계: 열 이름 설정
+                </h3>
+                <p class="step-hint" data-i18n="tableOrganizer.step2.hint">
+                  각 열의 이름을 입력하세요
+                </p>
+              </div>
+
+              <div class="column-setup">
+                <div class="column-count-control">
+                  <label data-i18n="tableOrganizer.step2.columnCount"
+                    >열 개수:
+                  </label>
+                  <input
+                    type="number"
+                    id="columnCountInput"
+                    min="1"
+                    max="10"
+                    value="3"
+                  />
+                  <button
+                    class="btn btn-secondary btn-small"
+                    id="updateColumnsBtn"
+                    data-i18n="tableOrganizer.step2.apply"
+                  >
+                    적용
+                  </button>
+                </div>
+
+                <div class="column-headers" id="columnHeaders"></div>
+
+                <div class="step-controls">
+                  <button
+                    class="btn btn-secondary"
+                    id="prevStepBtn"
+                    data-i18n="tableOrganizer.buttons.prev"
+                  >
+                    이전
+                  </button>
+                  <button
+                    class="btn btn-primary"
+                    id="generateTableBtn"
+                    data-i18n="tableOrganizer.buttons.generate"
+                  >
+                    표 생성
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <div class="step-section" id="resultStep">
+              <div class="step-header">
+                <h3 data-i18n="tableOrganizer.step3.title">3단계: 결과</h3>
+                <p class="step-hint" data-i18n="tableOrganizer.step3.hint">
+                  정리된 표를 확인하고 복사하세요
+                </p>
+              </div>
+
+              <div class="result-container">
+                <div class="result-controls">
+                  <button
+                    class="btn btn-success"
+                    id="copyTableBtn"
+                    data-i18n="tableOrganizer.buttons.copy"
+                  >
+                    📋 표 복사
+                  </button>
+                  <button
+                    class="btn btn-success"
+                    id="downloadTableBtn"
+                    data-i18n="tableOrganizer.buttons.download"
+                  >
+                    💾 엑셀 다운로드
+                  </button>
+                  <button
+                    class="btn btn-secondary"
+                    id="restartBtn"
+                    data-i18n="tableOrganizer.buttons.restart"
+                  >
+                    다시 시작
+                  </button>
+                </div>
+
+                <div class="table-result" id="tableResult"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Sheet Selector Tool -->
+        <div id="analyze-tool" class="tool-container">
+          <h2 class="tool-title" data-i18n="sheetSelector.title">시트 병합</h2>
+
+          <div class="tool-diagram">
+            <div class="diagram-title" data-i18n="sheetSelector.diagramTitle">
+              💡 시트 병합이란?
+            </div>
+            <div class="diagram-content">
+              <div class="diagram-step">
+                <div class="file-example">
+                  <div class="file-icon">📄</div>
+                  <div class="file-name">File1.xlsx</div>
+                  <div class="sheet-list">
+                    <div class="sheet-item selected">
+                      📋
+                      <span data-i18n="sheetSelector.sampleSheets.sheet1"
+                        >시트1</span
+                      >
+                      ✓
+                    </div>
+                    <div class="sheet-item">
+                      📋
+                      <span data-i18n="sheetSelector.sampleSheets.sheet2"
+                        >시트2</span
+                      >
+                      ✗
+                    </div>
+                    <div class="sheet-item selected">
+                      📋
+                      <span data-i18n="sheetSelector.sampleSheets.sheet3"
+                        >시트3</span
+                      >
+                      ✓
+                    </div>
+                  </div>
+                </div>
+                <div class="plus-icon">+</div>
+                <div class="file-example">
+                  <div class="file-icon">📄</div>
+                  <div class="file-name">File2.xlsx</div>
+                  <div class="sheet-list">
+                    <div class="sheet-item selected">
+                      📋
+                      <span data-i18n="sheetSelector.sampleSheets.sheetA"
+                        >시트A</span
+                      >
+                      ✓
+                    </div>
+                    <div class="sheet-item">
+                      📋
+                      <span data-i18n="sheetSelector.sampleSheets.sheetB"
+                        >시트B</span
+                      >
+                      ✗
+                    </div>
+                    <div class="sheet-item selected">
+                      📋
+                      <span data-i18n="sheetSelector.sampleSheets.sheetC"
+                        >시트C</span
+                      >
+                      ✓
+                    </div>
+                  </div>
+                </div>
+                <div class="arrow-icon">→</div>
+                <div class="file-example result">
+                  <div class="file-icon">📄</div>
+                  <div class="file-name">MergedFile.xlsx</div>
+                  <div class="sheet-list">
+                    <div class="sheet-item result">
+                      📋
+                      <span data-i18n="sheetSelector.sampleSheets.sheet1"
+                        >시트1</span
+                      >
+                    </div>
+                    <div class="sheet-item result">
+                      📋
+                      <span data-i18n="sheetSelector.sampleSheets.sheet3"
+                        >시트3</span
+                      >
+                    </div>
+                    <div class="sheet-item result">
+                      📋
+                      <span data-i18n="sheetSelector.sampleSheets.sheetA"
+                        >시트A</span
+                      >
+                    </div>
+                    <div class="sheet-item result">
+                      📋
+                      <span data-i18n="sheetSelector.sampleSheets.sheetC"
+                        >시트C</span
+                      >
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <p
+                class="diagram-description"
+                data-i18n="sheetSelector.diagramDescription"
+              >
+                여러 파일에서 원하는 시트들을 선택해서 하나의 파일로 모읍니다
+              </p>
+            </div>
+          </div>
+
+          <div class="sheet-selector-container">
+            <div class="step-section active" id="fileUploadStep">
+              <div class="step-header">
+                <h3 data-i18n="sheetSelector.step1.title">
+                  1단계: 엑셀 파일 업로드
+                </h3>
+                <p class="step-hint" data-i18n="sheetSelector.step1.hint">
+                  병합할 엑셀 파일들을 업로드하세요
+                </p>
+              </div>
+
+              <div class="upload-area" id="sheetSelectorUploadArea">
+                <div class="upload-icon">📁</div>
+                <p
+                  class="upload-text"
+                  data-i18n="sheetSelector.step1.uploadText"
+                >
+                  엑셀 파일들을 드래그하여 놓거나<br />
+                  아래 버튼을 클릭하여 선택하세요
+                </p>
+                <label
+                  for="sheetSelectorFileInput"
+                  class="upload-label"
+                  data-i18n="common.selectFiles"
+                  >파일 선택하기</label
+                >
+                <input
+                  type="file"
+                  id="sheetSelectorFileInput"
+                  multiple
+                  accept=".xls,.xlsx"
+                />
+                <p class="upload-hint" data-i18n="common.fileSupport">
+                  .xls, .xlsx 파일 지원
+                </p>
+              </div>
+
+              <div class="uploaded-files" id="uploadedFilesList"></div>
+
+              <div class="step-controls">
+                <button
+                  class="btn btn-secondary"
+                  id="clearFilesBtn"
+                  data-i18n="sheetSelector.buttons.clear"
+                >
+                  초기화
+                </button>
+                <button
+                  class="btn btn-primary"
+                  id="analyzeFilesBtn"
+                  disabled
+                  data-i18n="sheetSelector.buttons.analyze"
+                >
+                  시트 분석
+                </button>
+              </div>
+            </div>
+
+            <div class="step-section" id="sheetSelectionStep">
+              <div class="step-header">
+                <h3 data-i18n="sheetSelector.step2.title">2단계: 시트 선택</h3>
+                <p class="step-hint" data-i18n="sheetSelector.step2.hint">
+                  병합할 시트들을 선택하세요
+                </p>
+              </div>
+
+              <div class="selection-controls">
+                <button
+                  class="btn btn-secondary btn-small"
+                  id="selectAllSheetsBtn"
+                  data-i18n="sheetSelector.step2.selectAll"
+                >
+                  전체 선택
+                </button>
+                <button
+                  class="btn btn-secondary btn-small"
+                  id="deselectAllSheetsBtn"
+                  data-i18n="sheetSelector.step2.deselectAll"
+                >
+                  전체 해제
+                </button>
+              </div>
+
+              <div class="sheets-list" id="sheetsList"></div>
+
+              <div class="step-controls">
+                <button
+                  class="btn btn-secondary"
+                  id="backToUploadBtn"
+                  data-i18n="sheetSelector.buttons.prev"
+                >
+                  이전
+                </button>
+                <button
+                  class="btn btn-primary"
+                  id="previewSelectedBtn"
+                  disabled
+                  data-i18n="sheetSelector.buttons.preview"
+                >
+                  미리보기
+                </button>
+              </div>
+            </div>
+
+            <div class="step-section" id="previewStep">
+              <div class="step-header">
+                <h3 data-i18n="sheetSelector.step3.title">
+                  3단계: 선택된 시트 미리보기
+                </h3>
+                <p class="step-hint" data-i18n="sheetSelector.step3.hint">
+                  병합될 시트들을 확인하세요
+                </p>
+              </div>
+
+              <div class="preview-summary" id="previewSummary"></div>
+              <div class="preview-tabs" id="previewTabs"></div>
+              <div class="preview-content" id="previewContent"></div>
+
+              <div class="step-controls">
+                <button
+                  class="btn btn-secondary"
+                  id="backToSelectionBtn"
+                  data-i18n="sheetSelector.buttons.prev"
+                >
+                  이전
+                </button>
+                <button
+                  class="btn btn-success"
+                  id="mergeSelectedSheetsBtn"
+                  data-i18n="sheetSelector.buttons.merge"
+                >
+                  시트 병합
+                </button>
+              </div>
+            </div>
+
+            <div class="step-section" id="resultStep">
+              <div class="step-header">
+                <h3 data-i18n="sheetSelector.step4.title">4단계: 병합 완료</h3>
+                <p class="step-hint" data-i18n="sheetSelector.step4.hint">
+                  병합된 엑셀 파일을 다운로드하세요
+                </p>
+              </div>
+
+              <div class="merge-result" id="mergeResult"></div>
+
+              <div class="result-controls">
+                <button
+                  class="btn btn-success"
+                  id="downloadMergedBtn"
+                  data-i18n="sheetSelector.buttons.download"
+                >
+                  💾 병합 파일 다운로드
+                </button>
+                <button
+                  class="btn btn-secondary"
+                  id="startOverBtn"
+                  data-i18n="sheetSelector.buttons.startOver"
+                >
+                  새로 시작
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </main>
+
+      <!-- Footer -->
+      <footer class="app-footer">
+        <p data-i18n="footer.copyright">
+          &copy; 2024 Excel Wizard. All rights reserved.
+        </p>
+        <p>
+          <a
+            href="https://t.me/excelwizard"
+            target="_blank"
+            class="footer-link"
+          >
+            <span data-i18n="footer.community">💬 커뮤니티</span>
+          </a>
+          <span class="footer-divider">|</span>
+          <span data-i18n="footer.poweredBy">Powered by Nichecell</span>
+        </p>
+      </footer>
     </div>
 
+    <!-- JavaScript 모듈들 -->
+    <script src="js/app.js?v=1.5"></script>
+    <script src="js/tools/merge-tool.js?v=1.5"></script>
+    <script src="js/tools/sheet-creator.js?v=1.5"></script>
+    <script src="js/tools/table-organizer.js?v=1.5"></script>
+    <script src="js/tools/sheet-selector.js?v=1.5"></script>
+
+    <!-- Language Switcher Script -->
     <script>
-        // 언어 감지 및 리다이렉션
-        function detectAndRedirect() {
-            // 브라우저 언어 감지
-            const userLang = navigator.language || navigator.userLanguage;
-            const primaryLang = userLang.split('-')[0];
-            
-            // 쿠키에서 이전 언어 설정 확인
-            const savedLang = getCookie('preferred-language');
-            
-            let redirectPath;
-            if (savedLang) {
-                redirectPath = savedLang === 'ko' ? './ko/' : './en/';
-            } else if (primaryLang === 'ko') {
-                redirectPath = './ko/';
-            } else {
-                redirectPath = './ko/'; // 디폴트를 한국어로 설정
-            }
-            
-            // 즉시 리다이렉션
-            window.location.href = redirectPath;
+      function switchLanguage(lang) {
+        if (window.i18n) {
+          window.i18n.setLanguage(lang);
+
+          // URL 업데이트 (선택사항)
+          const url = new URL(window.location);
+          url.searchParams.set("lang", lang);
+          window.history.replaceState(null, "", url);
         }
-        
-        function getCookie(name) {
-            const value = `; ${document.cookie}`;
-            const parts = value.split(`; ${name}=`);
-            if (parts.length === 2) return parts.pop().split(';').shift();
+      }
+
+      // i18n 시스템 초기화 및 디버깅
+      document.addEventListener("DOMContentLoaded", function () {
+        console.log("[HTML] DOMContentLoaded");
+        console.log("[HTML] window.i18n:", window.i18n);
+        console.log("[HTML] window.translations:", window.translations);
+
+        if (window.i18n) {
+          console.log(
+            "[HTML] Current language:",
+            window.i18n.getCurrentLanguage()
+          );
+          // 페이지 번역 강제 실행
+          setTimeout(() => {
+            window.i18n.updatePage();
+          }, 100);
+        } else {
+          console.error("[HTML] i18n system not loaded!");
         }
-        
-        // 페이지 로드시 실행
-        detectAndRedirect();
+      });
     </script>
-</body>
+  </body>
 </html>

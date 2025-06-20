@@ -45,7 +45,7 @@ class SheetSelectorTool {
       uploadArea.addEventListener("drop", this.handleDrop.bind(this));
       uploadArea.addEventListener("click", (e) => {
         // label을 클릭한 경우가 아닐 때만 파일 입력 클릭
-        if (!e.target.closest('label')) {
+        if (!e.target.closest("label")) {
           fileInput.click();
         }
       });
@@ -163,12 +163,16 @@ class SheetSelectorTool {
                             📁 ${this.formatFileSize(file.size)}
                         </div>
                         <div class="sheet-count-info" id="sheet-count-${index}">
-                            ⏳ 분석 대기 중...
+                            ${
+                              window.t
+                                ? window.t("sheetSelector.progress.waiting")
+                                : "⏳ 분석 대기 중..."
+                            }
                         </div>
                     </div>
                 </div>
                 <button class="remove-file-btn" onclick="sheetSelectorTool.removeFile(${index})">
-                    제거
+                    ${window.t ? window.t("common.remove") : "제거"}
                 </button>
             `;
 
@@ -201,14 +205,26 @@ class SheetSelectorTool {
   async analyzeFiles() {
     if (this.uploadedFiles.length === 0) return;
 
-    this.showProgress("파일들을 분석하는 중...", 0);
+    this.showProgress(
+      window.t
+        ? window.t("sheetSelector.progress.analyzing")
+        : "파일들을 분석하는 중...",
+      0
+    );
 
     try {
       for (let i = 0; i < this.uploadedFiles.length; i++) {
         const file = this.uploadedFiles[i];
         const progress = (i / this.uploadedFiles.length) * 100;
 
-        this.updateProgress(`${file.name} 분석 중...`, progress);
+        this.updateProgress(
+          window.t
+            ? window.t("sheetSelector.progress.analyzingFile", {
+                fileName: file.name,
+              })
+            : `${file.name} 분석 중...`,
+          progress
+        );
 
         const arrayBuffer = await this.readFileAsArrayBuffer(file);
         const workbook = XLSX.read(arrayBuffer, { type: "array" });
@@ -218,7 +234,13 @@ class SheetSelectorTool {
         // UI 업데이트
         const sheetCountEl = document.getElementById(`sheet-count-${i}`);
         if (sheetCountEl) {
-          sheetCountEl.innerHTML = `📄 ${workbook.SheetNames.length}개 시트`;
+          sheetCountEl.innerHTML = `📄 ${
+            window.t
+              ? window.t("sheetSelector.info.sheetCount", {
+                  count: workbook.SheetNames.length,
+                })
+              : `${workbook.SheetNames.length}개 시트`
+          }`;
         }
       }
 
@@ -227,7 +249,13 @@ class SheetSelectorTool {
       this.displaySheetsList();
     } catch (error) {
       this.hideProgress();
-      alert("파일 분석 중 오류가 발생했습니다: " + error.message);
+      alert(
+        (window.t
+          ? window.t("sheetSelector.errors.analysisError")
+          : "파일 분석 중 오류가 발생했습니다:") +
+          " " +
+          error.message
+      );
       console.error(error);
     }
   }
@@ -253,7 +281,13 @@ class SheetSelectorTool {
                 <span class="file-icon">📁</span>
                 <span>${this.escapeHtml(file.name)}</span>
                 <span style="margin-left: auto; color: var(--text-secondary);">
-                    ${workbook.SheetNames.length}개 시트
+                    ${
+                      window.t
+                        ? window.t("sheetSelector.info.sheetCount", {
+                            count: workbook.SheetNames.length,
+                          })
+                        : `${workbook.SheetNames.length}개 시트`
+                    }
                 </span>
             `;
       fileGroup.appendChild(fileHeader);
@@ -278,7 +312,9 @@ class SheetSelectorTool {
                         <button class="sheet-preview-btn" onclick="sheetSelectorTool.previewSheet('${this.escapeHtml(
                           file.name
                         )}', '${this.escapeHtml(sheetName)}')">
-                            미리보기
+                            ${
+                              window.t ? window.t("common.preview") : "미리보기"
+                            }
                         </button>
                     </div>
                 `;
@@ -330,14 +366,23 @@ class SheetSelectorTool {
     // 간단한 모달이나 팝업으로 미리보기를 보여줄 수 있음
     // 현재는 alert로 대체
     alert(
-      `${fileName}의 "${sheetName}" 시트 미리보기\n(미리보기 기능은 3단계에서 확인할 수 있습니다)`
+      window.t
+        ? window.t("sheetSelector.alerts.previewInfo", {
+            fileName: fileName,
+            sheetName: sheetName,
+          })
+        : `${fileName}의 "${sheetName}" 시트 미리보기\n(미리보기 기능은 3단계에서 확인할 수 있습니다)`
     );
   }
 
   // 3단계: 미리보기
   goToPreview() {
     if (this.selectedSheets.length === 0) {
-      alert("선택된 시트가 없습니다.");
+      alert(
+        window.t
+          ? window.t("common.messages.noSelectedSheets")
+          : "선택된 시트가 없습니다."
+      );
       return;
     }
 
@@ -354,15 +399,25 @@ class SheetSelectorTool {
     const fileCount = new Set(this.selectedSheets.map((s) => s.fileName)).size;
 
     summaryEl.innerHTML = `
-            <h4>선택된 시트 정보</h4>
+            <h4>${
+              window.t
+                ? window.t("sheetSelector.info.selectedSheets")
+                : "선택된 시트 정보"
+            }</h4>
             <div class="summary-stats">
                 <div class="stat-item">
                     <span class="stat-number">${fileCount}</span>
-                    <span class="stat-label">파일</span>
+                    <span class="stat-label">${
+                      window.t ? window.t("common.file") : "파일"
+                    }</span>
                 </div>
                 <div class="stat-item">
-                    <span class="stat-number">${this.selectedSheets.length}</span>
-                    <span class="stat-label">시트</span>
+                    <span class="stat-number">${
+                      this.selectedSheets.length
+                    }</span>
+                    <span class="stat-label">${
+                      window.t ? window.t("common.sheet") : "시트"
+                    }</span>
                 </div>
             </div>
         `;
@@ -407,8 +462,11 @@ class SheetSelectorTool {
 
     const workbook = this.fileWorkbooks.get(fileName);
     if (!workbook || !workbook.Sheets[sheetName]) {
-      contentEl.innerHTML =
-        '<div class="preview-placeholder">시트를 불러올 수 없습니다.</div>';
+      contentEl.innerHTML = `<div class="preview-placeholder">${
+        window.t
+          ? window.t("common.messages.cannotLoadSheet")
+          : "시트를 불러올 수 없습니다."
+      }</div>`;
       return;
     }
 
@@ -416,8 +474,9 @@ class SheetSelectorTool {
     const jsonData = XLSX.utils.sheet_to_json(sheet, { header: 1 });
 
     if (jsonData.length === 0) {
-      contentEl.innerHTML =
-        '<div class="preview-placeholder">빈 시트입니다.</div>';
+      contentEl.innerHTML = `<div class="preview-placeholder">${
+        window.t ? window.t("common.messages.emptySheet") : "빈 시트입니다."
+      }</div>`;
       return;
     }
 
@@ -451,7 +510,12 @@ class SheetSelectorTool {
   async mergeSelectedSheets() {
     if (this.selectedSheets.length === 0) return;
 
-    this.showProgress("시트들을 병합하는 중...", 0);
+    this.showProgress(
+      window.t
+        ? window.t("sheetSelector.progress.merging")
+        : "시트들을 병합하는 중...",
+      0
+    );
 
     try {
       this.mergedWorkbook = XLSX.utils.book_new();
@@ -461,7 +525,14 @@ class SheetSelectorTool {
         const { fileName, sheetName } = this.selectedSheets[i];
         const progress = (i / this.selectedSheets.length) * 100;
 
-        this.updateProgress(`${sheetName} 처리 중...`, progress);
+        this.updateProgress(
+          window.t
+            ? window.t("sheetSelector.progress.processing", {
+                sheetName: sheetName,
+              })
+            : `${sheetName} 처리 중...`,
+          progress
+        );
 
         const workbook = this.fileWorkbooks.get(fileName);
         if (!workbook || !workbook.Sheets[sheetName]) continue;
@@ -494,7 +565,13 @@ class SheetSelectorTool {
       this.displayMergeResult();
     } catch (error) {
       this.hideProgress();
-      alert("시트 병합 중 오류가 발생했습니다: " + error.message);
+      alert(
+        (window.t
+          ? window.t("sheetSelector.errors.mergeError")
+          : "시트 병합 중 오류가 발생했습니다:") +
+          " " +
+          error.message
+      );
       console.error(error);
     }
   }
@@ -509,26 +586,47 @@ class SheetSelectorTool {
 
     resultEl.innerHTML = `
             <div class="merge-success-icon">✅</div>
-            <h3 class="merge-success-title">병합 완료!</h3>
+            <h3 class="merge-success-title">${
+              window.t
+                ? window.t("sheetSelector.info.mergeComplete")
+                : "병합 완료!"
+            }</h3>
             <div class="merge-details">
-                총 ${sheetCount}개의 시트가 성공적으로 병합되었습니다.<br>
-                이제 파일을 다운로드할 수 있습니다.
+                ${
+                  window.t
+                    ? window.t("sheetSelector.info.mergeSuccess", {
+                        sheetCount: sheetCount,
+                      })
+                    : `총 ${sheetCount}개의 시트가 성공적으로 병합되었습니다.<br>이제 파일을 다운로드할 수 있습니다.`
+                }
             </div>
         `;
   }
 
   downloadMergedFile() {
     if (!this.mergedWorkbook) {
-      alert("병합된 파일이 없습니다.");
+      alert(
+        window.t
+          ? window.t("common.messages.noMergedFile")
+          : "병합된 파일이 없습니다."
+      );
       return;
     }
 
     try {
       const date = new Date();
-      const filename = `시트병합_${ExcelWizardApp.formatDate(date)}.xlsx`;
+      const filename = `${
+        window.t ? window.t("sheetSelector.fileNames.prefix") : "시트병합_"
+      }${ExcelWizardApp.formatDate(date)}.xlsx`;
       XLSX.writeFile(this.mergedWorkbook, filename);
     } catch (error) {
-      alert("다운로드 중 오류가 발생했습니다: " + error.message);
+      alert(
+        (window.t
+          ? window.t("sheetSelector.errors.downloadError")
+          : "다운로드 중 오류가 발생했습니다:") +
+          " " +
+          error.message
+      );
       console.error(error);
     }
   }
